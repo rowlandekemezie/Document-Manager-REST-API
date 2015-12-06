@@ -5,11 +5,11 @@ var roleController = require('./../controllers/role.controller');
 module.exports = function(router) {
 
  // route for sign in. This requires autheentication
- router.route('/signIn')
+ router.route('/users/signIn')
   .post(userController.signIn);
 
  // route for logout. This requires that a user is signIn
- router.route('/logOut')
+ router.route('/users/logOut')
   .post(userController.logOut);
 
  // route to create new user requires no authentication but viewing users does.
