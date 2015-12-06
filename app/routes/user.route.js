@@ -1,7 +1,7 @@
 var userController = require('./../controllers/user.controller');
 var roleController = require('./../controllers/role.controller');
 
-// create rout definitions
+// create route definitions
 module.exports = function(router) {
 
  // route for sign in. This requires autheentication
