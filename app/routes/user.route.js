@@ -15,12 +15,12 @@ module.exports = function(router) {
  // route to create new user requires no authentication but viewing users does.
  router.route('/users')
   .post(userController.createUser)
-  .get(userController.getAllUsers);
+  .get(userController.Auth, userController.getAllUsers);
 
  // routes to GET, UPDATE and DELETE users.
  // This requires authentication
  router.route('/users/:id')
-  .get(userController.getUser)
+  .get(userController.Auth, userController.getUser)
   .put(userController.Auth, userController.updateUser)
   .delete(userController.Auth, userController.deleteUser);
 };
