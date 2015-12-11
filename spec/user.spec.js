@@ -83,7 +83,8 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should logout user", function(done) {
-  request.post('/api/users/logout').end(function(err, res) {
+  request.post('/api/users/logout')
+  .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: true,
     message: "You are logged out"
@@ -119,7 +120,10 @@ describe("CREATE USER POST /api/users/", function() {
    role: "Librarian",
    password: "awesomecool"
   };
-  request.post('/api/users/').send(newUser).expect(200).end(function(err, res) {
+  request.post('/api/users/')
+  .send(newUser)
+  .expect(200)
+  .end(function(err, res) {
    expect(err).toBeNull();
    expect(res.body).toEqual(jasmine.objectContaining({
     success: true,
@@ -152,7 +156,7 @@ describe("CREATE USER POST /api/users/", function() {
   });
  });
 
- it("should not create user with role a valid role", function(done) {
+ it("should not create user without a valid role", function(done) {
   var newuser = {
    userName: "Obama",
    firstName: "Akodi",
