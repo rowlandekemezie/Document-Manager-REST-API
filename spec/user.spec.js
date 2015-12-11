@@ -244,7 +244,9 @@ describe("GET USERS GET /api/users", function() {
  });
 
  it("should get a specific user by his id", function(done) {
-  request.get('/api/users/' + id).set('x-access-token', userToken).expect(200).end(function(err, res) {
+  request.get('/api/users/' + id).set('x-access-token', userToken)
+  .expect(200)
+  .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     userName: "Godson",
     name: {
@@ -260,7 +262,10 @@ describe("GET USERS GET /api/users", function() {
 
  it("should return no user with any invalid id", function(done) {
   var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-  request.get('/api/users/' + invalidId).set('x-access-token', userToken).expect(401).end(function(err, res) {
+  request.get('/api/users/' + invalidId)
+  .set('x-access-token', userToken)
+  .expect(401).
+  end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
     message: 'No user found by that Id'
