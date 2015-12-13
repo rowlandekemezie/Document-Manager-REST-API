@@ -4,9 +4,8 @@ var User = require('./user.model');
 
 //var Schema = mongoose.Shema;
 var documentSchema = new mongoose.Schema({
-
   ownerId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     Ref: 'User',
     required: true
   },
