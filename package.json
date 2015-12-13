@@ -1,10 +1,11 @@
 {
   "name": "rest-api",
   "version": "1.0.0",
-  "description": "A RESTful API to implement CRUD",
+  "description": "A RESTful API to implement CRUD for a document management system",
+  "preferGlobal": false,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine-node --captureExceptions --autotest --verbose --color --growl spec/",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -28,12 +29,16 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
+    "events": "^1.1.0",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
+    "fs": "0.0.2",
+    "jasmine-node": "^1.14.5",
     "jsonwebtoken": "^5.4.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.2.8",
     "morgan": "^1.6.1",
+    "supertest": "^1.1.0",
     "validator": "^4.3.0"
   }
 }
