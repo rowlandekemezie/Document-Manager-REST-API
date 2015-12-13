@@ -5,7 +5,7 @@
   "preferGlobal": false,
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node --captureExceptions --autotest  --color --growl spec/",
+    "test": "jasmine-node spec/*.js",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -40,5 +40,8 @@
     "morgan": "^1.6.1",
     "supertest": "^1.1.0",
     "validator": "^4.3.0"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
   }
 }
