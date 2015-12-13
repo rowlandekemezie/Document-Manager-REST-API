@@ -8,15 +8,6 @@
  "email": "andreamangala@gmail.com",
  "password": "StaffAdviser"
 }, {
- "userName": "Ify",
- "name": {
-  "firstName": "Ifeanyi",
-  "lastName": "Oraeolosi"
- },
- "role": "Librarian",
- "email": "ifeanyioraeolosi@gmail.com",
- "password": "EngineeringLead"
-}, {
  "userName": "Godson",
  "name": {
   "firstName": "Goddy",
@@ -25,4 +16,13 @@
  "role": "Trainer",
  "email": "godsonukpere@gmail.com",
  "password": "SeniorTechTrainer"
+}, {
+ "userName": "Ify",
+ "name": {
+  "firstName": "Ifeanyi",
+  "lastName": "Oraeolosi"
+ },
+ "role": "Librarian",
+ "email": "ifeanyioraeolosi@gmail.com",
+ "password": "EngineeringLead"
 }]
