@@ -5,7 +5,7 @@
   "preferGlobal": false,
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node --captureExceptions --autotest --verbose --color --growl spec/",
+    "test": "jasmine-node --captureExceptions --autotest  --color --growl spec/",
     "start": "nodemon server.js"
   },
   "repository": {
