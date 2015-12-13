@@ -2,10 +2,10 @@
   "name": "rest-api",
   "version": "1.0.0",
   "description": "A RESTful API to implement CRUD for a document management system",
-  "preferGlobal": true,
+  "preferGlobal": false,
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node spec",
+    "test": "jasmine-node --captureExceptions --autotest  --color --growl spec/",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -34,15 +34,11 @@
     "express-session": "^1.12.1",
     "fs": "0.0.2",
     "jasmine-node": "^1.14.5",
-    "jasmine-reporters": "^2.0.7",
     "jsonwebtoken": "^5.4.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.2.8",
     "morgan": "^1.6.1",
     "supertest": "^1.1.0",
     "validator": "^4.3.0"
-  },
-  "devDependencies": {
-    "jasmine-node": "^1.14.5"
   }
 }
