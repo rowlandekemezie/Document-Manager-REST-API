@@ -106,7 +106,7 @@ describe("DOCUMENT TESTS", function() {
   });
  });
  describe("GET, UPDATE, DELETE DOCUMENTS on /api/documents/", function() {
-  var docId, userToken;
+  var docId, roleTitle, date, userToken;
   beforeEach(function(done) {
    var newRole = new Role(roleData[0]);
    var newUser = new User(userData[0]);
@@ -114,11 +114,14 @@ describe("DOCUMENT TESTS", function() {
    newUser.save();
    var docTest = docData[0];
    docTest.ownerId = newUser._id;
+   roleTitle = docTest.role;
    var newDoc = new Document(docTest);
    newDoc.save();
 
    // assign newDoc._id to a global varaible to be used in this suite
    docId = newDoc._id;
+   date = newDoc.dateCreated;
+
    userToken = jwt.sign(newUser, config.secret, {
     expiresIn: 86400 // expires in 24 hrs
    });
@@ -198,6 +201,34 @@ describe("DOCUMENT TESTS", function() {
     }));
     done();
    });
+  });
+  it("should return documents for a specfic role GET /api/roles/:title/documents", function(done){
+    request.get('/api/roles/' + roleTitle + '/documents')
+    .set('x-access-token', userToken)
+    .expect(200)
+    .end(function(err, res){
+      expect(res.body.length).toEqual(1);
+      expect(res.body[0]).toEqual(jasmine.objectContaining({
+         title : 'The regalia',
+         content : 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty', 
+         role : 'Documentarian'
+     }));
+      done();
+    });
+  });
+  xit("should return documents for a specfic role GET /api/documents/:dateCreated/documents", function(done){
+    request.get('/api/documents/' + date + '/documents')
+    .set('x-access-token', userToken)
+    .expect(200)
+    .end(function(err, res){
+      expect(res.body.length).toEqual(1);
+      expect(res.body[0]).toEqual(jasmine.objectContaining({
+         title : 'The regalia',
+         content : 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty', 
+         role : 'Documentarian'
+     }));
+      done();
+    });
   });
   it("should not return document for an invalid user Id", function(done) {
    var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
