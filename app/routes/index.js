@@ -7,10 +7,10 @@ var roleRoute = require('./role.route');
  * @param  {[FUNCTION]} router [Express router instance]
  * @return {[JSON]}        [returns Json Object]
  */
-var defineRoute = function(router) {
+var defineRoutes = function(router) {
   userRoute(router);
   documentRoute(router);
   roleRoute(router);
 };
 
-module.exports = defineRoute;
+module.exports = defineRoutes;

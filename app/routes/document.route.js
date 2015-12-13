@@ -9,10 +9,11 @@ module.exports = function(router) {
 
   // endpoints to update  and delete document
   router.route('/documents/:id')
+  	.get(userController.Auth, documentController.getDocumentById)
   	.put(userController.Auth, documentController.updateDocument)
   	.delete(userController.Auth, documentController.deleteDocument);
 
- // endpoint to for user documents
+ // endpoint for user documents
  router.route('/users/:id/documents')
  	.get(userController.Auth, documentController.getAllDocumentsForUser);
 };
