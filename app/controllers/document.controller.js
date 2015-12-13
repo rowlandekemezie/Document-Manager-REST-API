@@ -19,7 +19,7 @@ module.exports = {
       } else {
         if (!role) {
           res.status(401).json({
-            succes: false,
+            success: false,
             message: 'Invalid role'
           });
         } else if (role) {
@@ -28,8 +28,8 @@ module.exports = {
           }, function(err, docs) {
             if (docs) {
               res.status(403).json({
-                succes: false,
-                message: 'Document exist'
+                success: false,
+                message: 'Document already exist'
               });
             } else if (!docs) {
               var userId = req.decoded._id;
@@ -58,9 +58,7 @@ module.exports = {
    * @return {[JSON]}     [Status and json documents on success]
    */
   getAllDocuments: function(req, res) {
-    Document.find({}).sort({
-      dateCreated: -1
-    }).limit(req.params.limit).exec(function(err, docs) {
+    Document.find({}).limit(req.params.limit).exec(function(err, docs) {
       if (err) {
         res.send(err);
       } else if (!docs) {
@@ -86,7 +84,7 @@ module.exports = {
       if (err) {
         res.send(err);
       } else if (!doc) {
-        res.send({
+        res.status(404).json({
           success: false,
           message: 'No document found for the Id'
         });

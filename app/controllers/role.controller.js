@@ -1,5 +1,5 @@
-var model = require('./../models');
-var config = require('./../config/admin');
+var Role = require('./../models').Role;
+var config = require('./../../config/admin');
 
 /**
  * [createRole method]
@@ -9,8 +9,8 @@ var config = require('./../config/admin');
  */
 exports.createRole = function(req, res) {
   var adminRole = req.body;
-  if (req.body.title) {
-    model.Role.findOne({
+  if (adminRole.title) {
+    Role.findOne({
       title: adminRole.title
     }, function(err, roles) {
       if (roles) {
@@ -19,9 +19,8 @@ exports.createRole = function(req, res) {
           message: 'Role already exist'
         });
       } else {
-        model.Role.create({
-          title: adminRole.title
-        }, function(err, success) {
+        var newRole = new Role(adminRole);
+        newRole.save(function(err) {
           if (err) {
             res.send(err);
           } else {
@@ -48,7 +47,7 @@ exports.createRole = function(req, res) {
  * @return {[JSON]}     [result of the search]
  */
 exports.getAllRoles = function(req, res){
-  model.Role.find({})
+  Role.find({})
   .exec(function(err, roles){
     if(err){
       res.send(err);
@@ -65,7 +64,7 @@ exports.getAllRoles = function(req, res){
  * @return {[status]}     [response]
  */
 exports.updateRole = function(req, res){
-  model.Role.findByIdAndUpdate(req.params.id, req.body, function(err, success){
+  Role.findByIdAndUpdate(req.params.id, req.body, function(err, success){
     if(err){
       res.send(err);
     }else{
@@ -84,7 +83,7 @@ exports.updateRole = function(req, res){
  * @return {[status]}     [response]
  */
 exports.deleteRole = function (req, res){
-  model.Role.findByIdAndRemove(req.params.id, function(err, success){
+  Role.findByIdAndRemove(req.params.id, function(err, success){
     if(err){
       res.send(err);
     }else{
