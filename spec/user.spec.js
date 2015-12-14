@@ -1,4 +1,5 @@
 "use strict";
+
 var fs = require('fs');
 var mongoose = require('mongoose');
 var app = require('./../server');
@@ -6,8 +7,10 @@ var request = require('supertest')(app);
 var jwt = require('jsonwebtoken');
 var config = require('./../config/pass');
 var model = require('./../app/models');
+
 var _userseeds = fs.readFileSync(__dirname + '/../seeds/users.json');
 var _roleseeds = fs.readFileSync(__dirname + '/../seeds/roles.json');
+
 var User = model.User;
 var Role = model.Role;
 
@@ -32,10 +35,12 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should login user on /users/login endpoint", function(done) {
-  request.post('/api/users/login').send({
+  request.post('/api/users/login')
+  .send({
    userName: userData[0].userName,
    password: userData[0].password
-  }).end(function(err, res) {
+  })
+  .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     message: 'Login successful',
     success: true
@@ -51,10 +56,12 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should not login user with the wrong username", function(done) {
-  request.post('/api/users/login').send({
+  request.post('/api/users/login')
+  .send({
    userName: "Hacker1" || undefined,
    psssword: userData[0].password
-  }).end(function(err, res) {
+  })
+  .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
     message: 'Invalid user'
@@ -67,10 +74,12 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should not login user with the wrong password", function(done) {
-  request.post('/api/users/login').send({
+  request.post('/api/users/login')
+  .send({
    userName: userData[0].userName,
    password: "wrongPassword" || undefined
-  }).end(function(err, res) {
+  })
+  .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
     message: 'Invalid password'
@@ -248,7 +257,8 @@ describe("GET USERS GET /api/users", function() {
  });
 
  it("should get a specific user by his id", function(done) {
-  request.get('/api/users/' + id).set('x-access-token', userToken)
+  request.get('/api/users/' + id)
+  .set('x-access-token', userToken)
   .expect(200)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({

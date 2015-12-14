@@ -1,4 +1,5 @@
 "use strict";
+
 var fs = require('fs');
 var mongoose = require('mongoose');
 var app = require('./../server');
@@ -6,12 +7,15 @@ var request = require('supertest')(app);
 var jwt = require('jsonwebtoken');
 var config = require('./../config/pass');
 var model = require('./../app/models');
+
 var _userseeds = fs.readFileSync(__dirname + '/../seeds/users.json');
 var _roleseeds = fs.readFileSync(__dirname + '/../seeds/roles.json');
 var _documentseeds = fs.readFileSync(__dirname + '/../seeds/documents.json');
+
 var userData = JSON.parse(_userseeds);
 var roleData = JSON.parse(_roleseeds);
 var docData = JSON.parse(_documentseeds);
+
 var User = model.User;
 var Role = model.Role;
 var Document = model.Document;
@@ -39,6 +43,7 @@ describe("DOCUMENT TESTS", function() {
     });
    });
   });
+
   it("should create document for user with valid credentials", function(done) {
    request.post('/api/documents/').set('x-access-token', userToken).send({
     title: docData[0].title,
@@ -54,6 +59,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should create document with unique title", function(done) {
    var doctest = docData[0];
    doctest.ownerId = id;
@@ -73,6 +79,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should not create a document without the user authenticated", function(done) {
    request.post('/api/documents/')
    .send(docData[1])
@@ -86,6 +93,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should not create a document without a valid role", function(done) {
    request.post('/api/documents')
    .set('x-access-token', userToken)
@@ -105,6 +113,7 @@ describe("DOCUMENT TESTS", function() {
    });
   });
  });
+
  describe("GET, UPDATE, DELETE DOCUMENTS on /api/documents/", function() {
   var docId, roleTitle, date, userToken;
   beforeEach(function(done) {
@@ -127,6 +136,7 @@ describe("DOCUMENT TESTS", function() {
    });
    done();
   });
+
   afterEach(function(done) {
    Document.remove({}, function() {
     User.remove({}, function() {
@@ -136,6 +146,7 @@ describe("DOCUMENT TESTS", function() {
     });
    });
   });
+
   it("it should return all documents", function(done) {
    for (var i = 1, n = docData.length; i < n; i++) {
     var newRole = new Role(roleData[i]);
@@ -172,6 +183,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should return all documents for a specific user on GET /api/users/:id/documents/", function(done) {
    var user1 = new User(userData[1]);
    user1.save();
@@ -202,6 +214,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should return documents for a specfic role GET /api/roles/:title/documents", function(done){
     request.get('/api/roles/' + roleTitle + '/documents')
     .set('x-access-token', userToken)
@@ -216,8 +229,9 @@ describe("DOCUMENT TESTS", function() {
       done();
     });
   });
+
   xit("should return documents for a specfic role GET /api/documents/:dateCreated/documents", function(done){
-    request.get('/api/documents/' + date + '/documents')
+    request.get('/api/documents/' + date + '/documents/')
     .set('x-access-token', userToken)
     .expect(200)
     .end(function(err, res){
@@ -230,6 +244,7 @@ describe("DOCUMENT TESTS", function() {
       done();
     });
   });
+
   it("should not return document for an invalid user Id", function(done) {
    var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
    request.delete('/api/documents/' + invalidId)
@@ -244,6 +259,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should return document for an id", function(done) {
    request.get('/api/documents/' + docId)
    .set('x-access-token', userToken)
@@ -258,6 +274,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should not return any document for invalid id", function(done) {
    var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
    request.get('/api/documents/' + invalidId)
@@ -272,6 +289,7 @@ describe("DOCUMENT TESTS", function() {
     done();
    });
   });
+
   it("should update document by id", function(done) {
    request.put('/api/documents/' + docId)
    .set('x-access-token', userToken)
@@ -296,6 +314,7 @@ describe("DOCUMENT TESTS", function() {
     });
    });
   });
+
   it("should delete document by id", function(done) {
    request.delete('/api/documents/' + docId).expect(200)
    .set('x-access-token', userToken)
@@ -316,6 +335,7 @@ describe("DOCUMENT TESTS", function() {
     });
    });
   });
+
   it("should not delete  any document by an invalid id", function(done) {
    var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
    request.delete('/api/documents/' + invalidId)
