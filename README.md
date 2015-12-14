@@ -23,7 +23,7 @@ Run `npm test` on your terminal. Remember to  run test on the project root direc
 3. Create your feature branch: `git checkout -b my-new-feature`
 5. Commit your changes: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin your-new-feature`
-6. Submit a pull request.
+5. Submit a pull request.
 
 ## FOLLOW US
 Follow me on [twitter](https://twitter.com/EkemezieRowland).
