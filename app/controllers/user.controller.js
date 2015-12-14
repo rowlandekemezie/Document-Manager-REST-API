@@ -1,8 +1,10 @@
 "use strict";
+
 var models = require('./../models');
 var config = require('./../../config/pass');
 var admin = require('./../../config/admin');
 var jwt = require('jsonwebtoken');
+
 /**
  * Models instancies
  * @type {[Objects]}
