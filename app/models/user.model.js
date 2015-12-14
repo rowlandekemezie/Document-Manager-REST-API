@@ -1,3 +1,4 @@
+"use strict";
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var Role = require('./role.model');

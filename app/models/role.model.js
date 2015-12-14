@@ -1,3 +1,4 @@
+"use strict";
 var mongoose = require('mongoose');
 
 var roleSchema = new mongoose.Schema({

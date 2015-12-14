@@ -1,3 +1,4 @@
+"use strict";
 var mongoose = require('mongoose');
 var Role = require('./role.model');
 var User = require('./user.model');
