@@ -1,4 +1,5 @@
 "use strict";
+
 var mongoose = require('mongoose');
 var Role = require('./role.model');
 var User = require('./user.model');
@@ -28,16 +29,16 @@ var documentSchema = new mongoose.Schema({
   },
 
   dateCreated: {
-    type: String
+    type: Date
   },
 
   lastModified: {
-    type: String
+    type: Date
   }
 });
 
 //set dateCreated and lastmodified to current date before saving a document
-documentSchema.pre('save', function(next) {
+documentSchema.pre("save", function(next) {
 
   var doc = this;
   var datetime = new Date();
@@ -53,7 +54,7 @@ documentSchema.pre('save', function(next) {
   var sec = datetime.getSeconds();
   if (sec < 10) sec = "0" + sec;
 
-  // put it all togeter
+  // put it all together
   var dateTimeString = year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec;
   doc.dateCreated = dateTimeString;
   doc.lastModified = dateTimeString;
