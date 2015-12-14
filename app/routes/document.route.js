@@ -1,19 +1,29 @@
+"use strict";
 var documentController = require('./../controllers/document.controller');
 var userController = require('./../controllers/user.controller');
+var userAuth = require('./../middlewares/userAuth');
 module.exports = function(router) {
 
   // endpoints to create and documents
   router.route('/documents')
-  	.post(userController.Auth, documentController.createDocument)
-  	.get(userController.Auth, documentController.getAllDocuments);
+  	.post(userAuth, documentController.createDocument)
+  	.get(userAuth, documentController.getAllDocuments);
 
   // endpoints to update  and delete document
   router.route('/documents/:id')
-  	.get(userController.Auth, documentController.getDocumentById)
-  	.put(userController.Auth, documentController.updateDocument)
-  	.delete(userController.Auth, documentController.deleteDocument);
+  	.get(userAuth, documentController.getDocumentById)
+  	.put(userAuth, documentController.updateDocument)
+  	.delete(userAuth, documentController.deleteDocument);
 
  // endpoint for user documents
  router.route('/users/:id/documents')
- 	.get(userController.Auth, documentController.getAllDocumentsForUser);
+ 	.get(userAuth, documentController.getAllDocumentsForUser);
+
+ // endpoint for documents accessible to a role
+ router.route('/roles/:title/documents')
+ 	.get(userAuth, documentController.getAllDocumentsForRole);
+
+ // endpoint for documents  created on a specific date
+ router.route('/documents/:date/documents')
+ 	.get(userAuth, documentController.getDocumentByDate);
 };
