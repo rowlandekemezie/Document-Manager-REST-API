@@ -1,25 +1,7 @@
 "use strict";
+
 var Role = require('./../models').Role;
 var config = require('./../../config/admin');
-
-
-/**
- * [verifyAdmin Middleware to protect SuperAdmin route(Authorization)]
- * @param  {[http request]}   req  [takes the userName of the the request params]
- * @param  {[http response]}   res  [response to user based on outcome of request]
- * @param  {control tranfer} next [tranfer control to the next middleware in the stack]
- * @return {[access privilege]}        [Json response]
- */
-exports.verifyAdmin = function(req, res, next){
-   if(req.params.userName !== config.admin){
-    res.status(401).json({
-        success: false,
-        message: 'Access denied'
-      });
-   } else{
-      next();
-    }
-};
 
 /**
  * [createRole method]
@@ -108,7 +90,7 @@ exports.getRoleById = function(req, res){
  * @return {[type]}     [description]
  */
 exports.updateRole = function(req, res){
-  Role.findByIdAndUpdate(req.params.id, function(err, role){
+  Role.findByIdAndUpdate(req.params.id, req.body, function(err, role){
     if(err){
       req.send(err);
     }else if(!role){
@@ -131,9 +113,14 @@ exports.updateRole = function(req, res){
  * @param  {[http response]Json Json response]
  */
 exports.deleteRole = function (req, res){
-  Role.findByIdAndRemove(req.params.id, function(err, success){
+  Role.findByIdAndRemove(req.params.id, function(err, role){
     if(err){
       res.send(err);
+    }else if (!role){
+      res.status(404).json({
+        success: false,
+        message: 'Role not found'
+      });
     }else{
       res.status(200).json({
         success: true,

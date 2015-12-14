@@ -12,34 +12,7 @@ var Role = models.Role;
 var Document = models.Document;
 
 module.exports = {
- /**
-  * [Authenthication middleware to protect certain routes]
-  * @param {[http request]}   req  [http requset body]
-  * @param {[http response]}   res  [http json response]
-  * @param {Function} next [control transfer to the next function/middleware]
-  */
- Auth: function(req, res, next) {
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  if (!token) {
-   res.status(403).send({
-    success: false,
-    message: "Please provide your token"
-   });
-   return;
-  } else {
-   jwt.verify(token, config.secret, function(err, decoded) {
-    if (err) {
-     res.status(401).json({
-      success: false,
-      message: "Authentication failed"
-     });
-    } else {
-     req.decoded = decoded;
-     next();
-    }
-   });
-  }
- },
+
  /**
   * [logout method]
   * @param  {[http request]} req [request session]

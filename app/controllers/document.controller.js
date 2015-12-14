@@ -3,6 +3,7 @@ var models = require('./../models');
 var User = models.User;
 var Role = models.Role;
 var Document = models.Document;
+
 module.exports = {
   /**
    * [createDocument method]
