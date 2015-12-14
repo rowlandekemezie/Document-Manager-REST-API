@@ -1,3 +1,4 @@
+"use strict";
 var models = require('./../models');
 var config = require('./../../config/pass');
 var admin = require('./../../config/admin');
@@ -9,12 +10,13 @@ var jwt = require('jsonwebtoken');
 var User = models.User;
 var Role = models.Role;
 var Document = models.Document;
+
 module.exports = {
  /**
   * [Authenthication middleware to protect certain routes]
-  * @param {[http request]}   req  [description]
-  * @param {[http response]}   res  [description]
-  * @param {Function} next [description]
+  * @param {[http request]}   req  [http requset body]
+  * @param {[http response]}   res  [http json response]
+  * @param {Function} next [control transfer to the next function/middleware]
   */
  Auth: function(req, res, next) {
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -39,10 +41,10 @@ module.exports = {
   }
  },
  /**
-  * [logOut method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * [logout method]
+  * @param  {[http request]} req [request session]
+  * @param  {[http response]} res [response on request]
+  * @return {[json]}     [Json response]
   */
  logout: function(req, res) {
   req.session.destroy(function(err) {
@@ -57,10 +59,10 @@ module.exports = {
   });
  },
  /**
-  * [signIn method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * [login method]
+  * @param  {[http request]} req [http request body]
+  * @param  {[http response]} res [http response on request]
+  * @return {[JSON]}     [response status]
   */
  login: function(req, res) {
   User.findOne({
@@ -96,9 +98,9 @@ module.exports = {
  },
  /**
   * [createUser method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * @param  {[http request]} req [http request body]
+  * @param  {[http response]} res [http response on request]
+  * @return {[JSON]}     [response status]
   */
  createUser: function(req, res) {
   var userData = req.body;
@@ -170,9 +172,9 @@ module.exports = {
  },
  /**
   * [getAllUsers method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * @param  {[http request]} req [http request on API]
+  * @param  {[http response]} res [http response on resquest]
+  * @return {[JSON]}     [response status and/or json response]
   */
  getAllUsers: function(req, res) {
   User.find({}, function(err, users) {
@@ -190,9 +192,9 @@ module.exports = {
  },
  /**
   * [getUser method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * @param  {[http request]} req [http request params]
+  * @param  {[http response]} res [http response on request]
+  * @return {[JSON]}     [json response and/or status]
   */
  getUser: function(req, res) {
   User.findById(req.params.id, function(err, user) {
@@ -210,9 +212,9 @@ module.exports = {
  },
  /**
   * [updateUser method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * @param  {[http request]} req [http request params and body]
+  * @param  {[http response]} res [http response on request]
+  * @return {[JSON]}     [json response and/or status]
   */
  updateUser: function(req, res) {
   var userData = req.body;
@@ -256,9 +258,9 @@ module.exports = {
  },
  /**
   * [deleteUser method]
-  * @param  {[type]} req [description]
-  * @param  {[type]} res [description]
-  * @return {[type]}     [description]
+  * @param  {[http request]} req [http request params]
+  * @param  {[http response]} res [http response on request]
+  * @return {[JSON]}     [response status]
   */
  deleteUser: function(req, res) {
   User.findByIdAndRemove(req.params.id, function(err, user) {

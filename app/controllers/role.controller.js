@@ -1,11 +1,31 @@
+"use strict";
 var Role = require('./../models').Role;
 var config = require('./../../config/admin');
+
+
+/**
+ * [verifyAdmin Middleware to protect SuperAdmin route(Authorization)]
+ * @param  {[http request]}   req  [takes the userName of the the request params]
+ * @param  {[http response]}   res  [response to user based on outcome of request]
+ * @param  {control tranfer} next [tranfer control to the next middleware in the stack]
+ * @return {[access privilege]}        [Json response]
+ */
+exports.verifyAdmin = function(req, res, next){
+   if(req.params.userName !== config.admin){
+    res.status(401).json({
+        success: false,
+        message: 'Access denied'
+      });
+   } else{
+      next();
+    }
+};
 
 /**
  * [createRole method]
  * @param  {[http request]} req [request body]
  * @param  {[http response]} res [response on request]
- * @return {[status]}     [response]
+ * @return {[status]}     [Json response]
  */
 exports.createRole = function(req, res) {
   var adminRole = req.body;
@@ -51,8 +71,56 @@ exports.getAllRoles = function(req, res){
   .exec(function(err, roles){
     if(err){
       res.send(err);
-    }else{
+    }else if(!roles){
+      res.status(404).json({
+        message: 'No role exist',
+        success: true
+      });
+} else{
       res.json(roles);
+    }
+  });
+};
+/**
+ * [getRoleById method]
+ * @param  {[http request]} req [request params]
+ * @param  {[http response]} res [json response on request]
+ * @return {[JSON]}     [status and/or json result]
+ */
+exports.getRoleById = function(req, res){
+  Role.findOne({_id:req.params.id}, function(err, role){
+    if(err){
+      res.send(err);
+    }else if(!role){
+      res.status(404).json({
+        success: false,
+        message: 'No role found for the Id'
+      });
+    }else{
+      res.json(role);
+    }
+  });
+};
+/**
+ * [updateRole method]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+exports.updateRole = function(req, res){
+  Role.findByIdAndUpdate(req.params.id, function(err, role){
+    if(err){
+      req.send(err);
+    }else if(!role){
+      res.status(404).json({
+        success: false,
+        message: 'No role found for the Id'
+      });
+    }else{
+      res.status(200).json({
+        message: 'Role successfully updated',
+        success: true
+      });
     }
   });
 };
@@ -60,27 +128,7 @@ exports.getAllRoles = function(req, res){
 /**
  * [updateRole method]
  * @param  {[http request]} req [takes the userId paramter to be updated]
- * @param  {[http response]} res [response on request]
- * @return {[status]}     [response]
- */
-exports.updateRole = function(req, res){
-  Role.findByIdAndUpdate(req.params.id, req.body, function(err, success){
-    if(err){
-      res.send(err);
-    }else{
-      res.status(200).json({
-        success: true,
-        message: 'Successfully updated'
-      });
-    }
-  });
-};
-
-/**
- * [deleteRole method]
- * @param  {[http request]} req [takes userId as parameter]
- * @param  {[http response]} res [response on the request]
- * @return {[status]}     [response]
+ * @param  {[http response]Json Json response]
  */
 exports.deleteRole = function (req, res){
   Role.findByIdAndRemove(req.params.id, function(err, success){
@@ -93,22 +141,4 @@ exports.deleteRole = function (req, res){
       });
     }
   });
-};
-
-/**
- * [verifyAdmin Middleware to protect SuperAdmin route(Authorization)]
- * @param  {[http request]}   req  [takes the userName of the the request params]
- * @param  {[http response]}   res  [response to user based on outcome of request]
- * @param  {control tranfer} next [tranfer control to the next middleware in the stack]
- * @return {[access privilege]}        [response]
- */
-exports.verifyAdmin = function(req, res, next){
-   if(req.params.userName !== config.admin){
-    res.status(401).json({
-        success: false,
-        message: 'Access denied'
-      });
-   } else{
-      next();
-    }
 };

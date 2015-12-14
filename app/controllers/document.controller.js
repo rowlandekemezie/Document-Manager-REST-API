@@ -1,3 +1,4 @@
+"use strict";
 var models = require('./../models');
 var User = models.User;
 var Role = models.Role;
@@ -7,7 +8,7 @@ module.exports = {
    * [createDocument method]
    * @param  {[JSON]} req [http request body]
    * @param  {[JSON]} res [response on request]
-   * @return {[JSON]}     [status]
+   * @return {[JSON]}     [Json status]
    */
   createDocument: function(req, res) {
     var doc = req.body;
@@ -58,7 +59,9 @@ module.exports = {
    * @return {[JSON]}     [Status and json documents on success]
    */
   getAllDocuments: function(req, res) {
-    Document.find({}).limit(req.params.limit).exec(function(err, docs) {
+    Document.find({})
+    .limit(parseInt(req.params.limit))
+    .exec(function(err, docs) {
       if (err) {
         res.send(err);
       } else if (!docs) {
@@ -75,7 +78,7 @@ module.exports = {
    * [getDocumentById method]
    * @param  {[JSON]} req [request params]
    * @param  {[JSON]} res [response on request]
-   * @return {[JSON]}     [status]
+   * @return {[JSON]}     [Json status]
    */
   getDocumentById: function(req, res) {
     Document.findOne({
@@ -93,6 +96,72 @@ module.exports = {
       }
     });
   },
+  /**
+   * [getDocumentByDate method]
+   * @param  {[http resquest]} req [http request params]
+   * @param  {[http response]} res [http response on request]
+   * @return {[JSON]}     [Json response and/or status]
+   */
+   getDocumentByDate: function(req, res) {
+    Document.find({dateCreated: req.params.dateCreated})
+    .limit(parseInt(req.params.limit))
+    .exec(function(err, docs) {
+      if (err) {
+        res.send(err);
+      } else if (!docs) {
+        res.send({
+          success: false,
+          message: 'No document found'
+        });
+      } else {
+        res.json(docs);
+      }
+    });
+  },
+  /**
+   * [getAllDocumentsForUser method]
+   * @param  {[JSON]} req [http request params]
+   * @param  {[JSON]} res [http response on response]
+   * @return {[JSON]}     [json status of the request]
+   */
+  getAllDocumentsForUser: function(req, res) {
+    Document.find({ownerId: req.params.id})
+    .limit(parseInt(req.params.limit))
+    .exec(function(err, docs) {
+      if (err) {
+        res.send(err);
+      } else if (!docs) {
+        res.status(404).json({
+          success: false,
+          message: 'User have no document'
+        });
+      } else {
+        res.status(200).json(docs);
+      }
+    });
+  },
+  /**
+ * [getAllDocumentsForRole method]
+ * @param  {[http request]} req [http request params]
+ * @param  {[http response]} res [http response on request]
+ * @return {[JSON]}     [json response and/or status]
+ */
+getAllDocumentsForRole: function(req, res){
+     Document.find({
+      role: req.params.title
+    }, function(err, docs) {
+      if (err) {
+        res.send(err);
+      } else if (!docs) {
+        res.status(404).json({
+          success: false,
+          message: 'Role have no document'
+        });
+      } else {
+        res.status(200).json(docs);
+      }
+    });
+   },
   /**
    * [updateDocument method]
    * @param  {[JSON]} req [request params]
@@ -138,29 +207,6 @@ module.exports = {
           success: true,
           message: 'Document deleted successfully'
         });
-      }
-    });
-  },
-
-  /**
-   * [getAllDocumentsForUser method]
-   * @param  {[JSON]} req [http request params]
-   * @param  {[JSON]} res [http response on response]
-   * @return {[JSON]}     [json status of the request]
-   */
-  getAllDocumentsForUser: function(req, res) {
-    Document.find({
-      ownerId: req.params.id
-    }, function(err, docs) {
-      if (err) {
-        res.send(err);
-      } else if (!docs) {
-        res.status(404).json({
-          success: false,
-          message: 'User have no document'
-        });
-      } else {
-        res.status(200).json(docs);
       }
     });
   }
