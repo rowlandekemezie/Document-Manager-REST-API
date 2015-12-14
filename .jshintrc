@@ -1,0 +1,28 @@
+{
+ "globalstrict": true,
+ "globals": {
+  "angular": false,
+  "describe": false,
+  "afterEach": false,
+  "inject": false,
+  "it": false,
+  "expect": false,
+  "$window": false,
+  "$": false,
+  "__dirname": false,
+  "window": false,
+  "localStorage": false,
+  "google": false,
+  "jasmine": false,
+  "process": false,
+  "console": false,
+  "require": false,
+  "document": false,
+  "FileReader": false,
+  "$location": false,
+  "beforeEach": false,
+  "module": false,
+  "exports": false,
+  "xit": false
+ }
+}
