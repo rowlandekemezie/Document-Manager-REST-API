@@ -26,7 +26,7 @@ Run `npm test` on your terminal. Remember to  run test on the project root direc
 5. Submit a pull request.
 
 ###  Links
-Follow me on [twitter](https://twitter.com/EkemezieRowland).
-Document manager [CLI version of Document manager with mongodb](https://github.com/andela-rekemezie/DMS-Mongoose).
-Document manager [CLI version of Document manager with PostgreSQL](https://github.com/andela-rekemezie/DMS-Sequelize).
+* Follow me on [twitter](https://twitter.com/EkemezieRowland).
+* Document manager [CLI version of Document manager with mongodb](https://github.com/andela-rekemezie/DMS-Mongoose).
+* Document manager [CLI version of Document manager with PostgreSQL](https://github.com/andela-rekemezie/DMS-Sequelize).
 
