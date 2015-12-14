@@ -33,11 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
-// mount the router on the root directory
-app.get('/', function(req, res){
-	res.send('I am here');
-});
+// mount the router on api root directory
 app.use('/api', router);
-
 
 module.exports = app;
