@@ -10,14 +10,14 @@ Document-Manager-REST-API is a  RESTful API built with Express, Node, and Mongod
 4. Navigate to your terminal and change your directory to the **Document-Manager-REST-API**.
 5. Run `npm install` to install node dependencies.
 
-## Usage
+### Usage
 Run `npm start` on your terminal.
 Navigate to `http://localhost:5555` on your browser.
 
-## Test
+### Test
 Run `npm test` on your terminal. Remember to  run test on the project root directory.
 
-## Contributing
+### Contributing
 1. Create an issue. First look through [the open issues](https://github.com/andela-rekemezie/Document-Manager-REST-API/issues).
 2. Clone the repository or fork it.
 3. Create your feature branch: `git checkout -b my-new-feature`
@@ -25,5 +25,8 @@ Run `npm test` on your terminal. Remember to  run test on the project root direc
 4. Push to the branch: `git push origin your-new-feature`
 5. Submit a pull request.
 
-## FOLLOW US
+###  Links
 Follow me on [twitter](https://twitter.com/EkemezieRowland).
+Document manager [CLI version of Document manager with mongodb](https://github.com/andela-rekemezie/DMS-Mongoose).
+Document manager [CLI version of Document manager with PostgreSQL](https://github.com/andela-rekemezie/DMS-Sequelize).
+
