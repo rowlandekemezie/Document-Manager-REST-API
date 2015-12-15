@@ -7,7 +7,8 @@ var request = require('supertest')(app);
 var jwt = require('jsonwebtoken');
 var config = require('./../config/pass');
 var model = require('./../app/models');
-var date = require('./../seeds/dateHelper');
+var date = require('./../seeds/dateHelper')();
+
 var _userseeds = fs.readFileSync(__dirname + '/../seeds/users.json');
 var _roleseeds = fs.readFileSync(__dirname + '/../seeds/roles.json');
 var _documentseeds = fs.readFileSync(__dirname + '/../seeds/documents.json');
@@ -246,8 +247,7 @@ describe("DOCUMENT TESTS", function() {
     });
   });
 
-  xit("should return documents for a specfic date GET /api/documents/date/:dateCreated/:limit", function(done){
-    var date = require('./../seeds/dateHelper')();
+  it("should return documents for a specfic date GET /api/documents/date/:dateCreated/:limit", function(done){
     request.get('/api/documents/date/' + date + '/' + limit)
     .set('x-access-token', userToken)
     .expect(200)
