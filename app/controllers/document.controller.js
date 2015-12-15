@@ -123,7 +123,7 @@ module.exports = {
    * [getAllDocumentsForUser method]
    * @param  {[JSON]} req [http request params]
    * @param  {[JSON]} res [http response on response]
-   * @return {[JSON]}     [json status of the request]
+   * @return {[JSON]}     [json status of the response]
    */
   getAllDocumentsForUser: function(req, res) {
     Document.find({ownerId: req.params.id})
@@ -134,7 +134,7 @@ module.exports = {
       } else if (!docs) {
         res.status(404).json({
           success: false,
-          message: 'User have no document'
+          message: 'User has no document'
         });
       } else {
         res.status(200).json(docs);
@@ -148,15 +148,15 @@ module.exports = {
  * @return {[JSON]}     [json response and/or status]
  */
 getAllDocumentsForRole: function(req, res){
-     Document.find({
-      role: req.params.title
-    }, function(err, docs) {
+     Document.find({ role: req.params.title})
+     .limit(parseInt(req.params.limit))
+    .exec(function(err, docs) {
       if (err) {
         res.send(err);
       } else if (!docs) {
         res.status(404).json({
           success: false,
-          message: 'Role have no document'
+          message: 'Role has no document'
         });
       } else {
         res.status(200).json(docs);
