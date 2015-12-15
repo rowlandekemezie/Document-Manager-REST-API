@@ -7,7 +7,7 @@ var request = require('supertest')(app);
 var jwt = require('jsonwebtoken');
 var config = require('./../config/pass');
 var model = require('./../app/models');
-
+var date = require('./../seeds/dateHelper');
 var _userseeds = fs.readFileSync(__dirname + '/../seeds/users.json');
 var _roleseeds = fs.readFileSync(__dirname + '/../seeds/roles.json');
 var _documentseeds = fs.readFileSync(__dirname + '/../seeds/documents.json');
@@ -45,7 +45,8 @@ describe("DOCUMENT TESTS", function() {
   });
 
   it("should create document for user with valid credentials", function(done) {
-   request.post('/api/documents/').set('x-access-token', userToken).send({
+   request.post('/api/documents/')
+   .set('x-access-token', userToken).send({
     title: docData[0].title,
     content: docData[0].content,
     role: docData[0].role,
@@ -115,7 +116,7 @@ describe("DOCUMENT TESTS", function() {
  });
 
  describe("GET, UPDATE, DELETE DOCUMENTS on /api/documents/", function() {
-  var docId, roleTitle, date, userToken;
+  var docId, roleTitle, date, userToken, limit = 1;
   beforeEach(function(done) {
    var newRole = new Role(roleData[0]);
    var newUser = new User(userData[0]);
@@ -184,6 +185,21 @@ describe("DOCUMENT TESTS", function() {
    });
   });
 
+  it("should return all documents limited by a limit value", function(done){
+    request.get('/api/documents/limit/' + limit)
+    .set('x-access-token', userToken)
+    .expect(200)
+    .end(function(err, res){
+     expect(res.body.length).toBe(1);
+     expect(res.body[0]).toEqual(jasmine.objectContaining({
+      title: 'The regalia',
+      role: 'Documentarian',
+      content: 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty'
+    }));
+    done();
+   });
+  });
+
   it("should return all documents for a specific user on GET /api/users/:id/documents/", function(done) {
    var user1 = new User(userData[1]);
    user1.save();
@@ -215,8 +231,8 @@ describe("DOCUMENT TESTS", function() {
    });
   });
 
-  it("should return documents for a specfic role GET /api/roles/:title/documents", function(done){
-    request.get('/api/roles/' + roleTitle + '/documents')
+  it("should return documents for a specfic role GET /api/documents/role/:title/:limit", function(done){
+    request.get('/api/documents/role/' + roleTitle + '/' + limit)
     .set('x-access-token', userToken)
     .expect(200)
     .end(function(err, res){
@@ -230,8 +246,9 @@ describe("DOCUMENT TESTS", function() {
     });
   });
 
-  xit("should return documents for a specfic role GET /api/documents/:dateCreated/documents", function(done){
-    request.get('/api/documents/' + date + '/documents/')
+  xit("should return documents for a specfic date GET /api/documents/date/:dateCreated/:limit", function(done){
+    var date = require('./../seeds/dateHelper')();
+    request.get('/api/documents/date/' + date + '/' + limit)
     .set('x-access-token', userToken)
     .expect(200)
     .end(function(err, res){
