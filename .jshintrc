@@ -22,7 +22,6 @@
   "$location": false,
   "beforeEach": false,
   "module": false,
-  "exports": false,
-  "xit": false
- }
+  "exports": false
+   }
 }
