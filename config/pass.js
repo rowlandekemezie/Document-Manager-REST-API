@@ -1,5 +1,7 @@
-"use strict";
+(function() {
+ "use strict";
 
-module.exports = {
- "secret": "programmingIsSweet"
-};
+ module.exports = {
+  "secret": "programmingIsSweet"
+ };
+})();

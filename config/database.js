@@ -1,6 +1,7 @@
-"use strict";
-var mongoose = require('mongoose');
+(function() {
+ "use strict";
 
-module.exports = {
- db: 'mongodb://localhost/REST-API'
-};
+ module.exports = {
+  db: "mongodb://localhost/REST-API"
+ };
+})();
