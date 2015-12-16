@@ -1,7 +1,7 @@
-"use strict";
+(function (){
+  "use strict";
 
-var Role = require('./../models').Role;
-var config = require('./../../config/admin');
+var Role = require("./../models").Role;
 
 /**
  * [createRole method]
@@ -18,7 +18,7 @@ exports.createRole = function(req, res) {
       if (roles) {
         res.status(401).json({
           success: false,
-          message: 'Role already exist'
+          message: "Role already exist"
         });
       } else {
         var newRole = new Role(adminRole);
@@ -28,7 +28,7 @@ exports.createRole = function(req, res) {
           } else {
             res.status(200).json({
               success: true,
-              message: 'Role successfuly created'
+              message: "Role successfuly created"
             });
           }
         });
@@ -37,7 +37,7 @@ exports.createRole = function(req, res) {
   } else {
     res.status(403).json({
       success: false,
-      message: 'Please, provide role to continue'
+      message: "Please, provide role to continue"
     });
   }
 };
@@ -55,7 +55,7 @@ exports.getAllRoles = function(req, res){
       res.send(err);
     }else if(!roles){
       res.status(404).json({
-        message: 'No role exist',
+        message: "No role exist",
         success: true
       });
 } else{
@@ -76,7 +76,7 @@ exports.getRoleById = function(req, res){
     }else if(!role){
       res.status(404).json({
         success: false,
-        message: 'No role found for the Id'
+        message: "No role found for the Id"
       });
     }else{
       res.json(role);
@@ -96,11 +96,11 @@ exports.updateRole = function(req, res){
     }else if(!role){
       res.status(404).json({
         success: false,
-        message: 'No role found for the Id'
+        message: "No role found for the Id"
       });
     }else{
       res.status(200).json({
-        message: 'Role successfully updated',
+        message: "Role successfully updated",
         success: true
       });
     }
@@ -119,13 +119,14 @@ exports.deleteRole = function (req, res){
     }else if (!role){
       res.status(404).json({
         success: false,
-        message: 'Role not found'
+        message: "Role not found"
       });
     }else{
       res.status(200).json({
         success: true,
-        message:'Successfully deleted'
+        message:"Successfully deleted"
       });
     }
   });
 };
+})();

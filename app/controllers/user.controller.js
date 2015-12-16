@@ -1,9 +1,9 @@
-"use strict";
+(function (){
+  "use strict";
 
-var models = require('./../models');
-var config = require('./../../config/pass');
-var admin = require('./../../config/admin');
-var jwt = require('jsonwebtoken');
+var models = require("./../models");
+var config = require("./../../config/pass");
+var jwt = require("jsonwebtoken");
 
 /**
  * Models instancies
@@ -11,7 +11,6 @@ var jwt = require('jsonwebtoken');
  */
 var User = models.User;
 var Role = models.Role;
-var Document = models.Document;
 
 module.exports = {
 
@@ -56,7 +55,7 @@ module.exports = {
     if (!isValid) {
      res.status(403).json({
       success: false,
-      message: 'Invalid password'
+      message: "Invalid password"
      });
     } else {
      var token = jwt.sign(user, config.secret, {
@@ -82,22 +81,22 @@ module.exports = {
   if (!userData.role) {
    res.status(401).json({
     success: false,
-    message: 'Please, provide your role'
+    message: "Please, provide your role"
    });
   } else if (!(userData.firstName && userData.lastName)) {
    res.status(401).json({
     success: false,
-    message: 'Please, provide your firstName and lastName'
+    message: "Please, provide your firstName and lastName"
    });
   } else if ((userData.password).length < 8 || undefined) {
    res.status(403).send({
     success: false,
-    message: 'Password must not be less than 8 characters'
+    message: "Password must not be less than 8 characters"
    });
   } else if (!userData.email || !userData.userName) {
    res.status(403).send({
     success: false,
-    message: 'Please enter your userName and email'
+    message: "Please enter your userName and email"
    });
   } else {
    Role.findOne({
@@ -106,7 +105,7 @@ module.exports = {
     if (!roles) {
      res.status(401).send({
       success: false,
-      message: 'Invalid role'
+      message: "Invalid role"
      });
     } else {
      User.findOne({
@@ -115,7 +114,7 @@ module.exports = {
       if (users) {
        res.status(401).send({
         success: false,
-        message: 'UserName already exist'
+        message: "UserName already exist"
        });
       } else {
        var userDetail = {
@@ -135,7 +134,7 @@ module.exports = {
         } else {
          res.status(200).json({
           success: true,
-          message: 'User created successfully'
+          message: "User created successfully"
          });
         }
        });
@@ -158,7 +157,7 @@ module.exports = {
    } else if (!users) {
     res.status(404).send({
      success: false,
-     message: 'No user found'
+     message: "No user found"
     });
    } else {
     res.json(users);
@@ -178,7 +177,7 @@ module.exports = {
    } else if (!user) {
     res.status(404).send({
      success: false,
-     message: 'No user found by that Id'
+     message: "No user found by that Id"
     });
    } else {
     res.json(user);
@@ -210,7 +209,7 @@ module.exports = {
    if (!role || role.title === config.admin) {
     res.status(404).json({
      success: false,
-     message: 'Please provide your role'
+     message: "Please provide your role"
     });
    } else {
     User.findByIdAndUpdate(req.params.id, userDetail, function(err, user) {
@@ -219,12 +218,12 @@ module.exports = {
      } else if (!user) {
       res.status(404).json({
        success: false,
-       message: 'User not available'
+       message: "User not available"
       });
      } else {
       res.json({
        success: true,
-       message: 'User details updated'
+       message: "User details updated"
       });
      }
     });
@@ -244,14 +243,15 @@ module.exports = {
    } else if (!user) {
     res.status(404).json({
      success: false,
-     message: 'User not available'
+     message: "User not available"
     });
    } else {
     res.status(200).json({
      success: true,
-     message: 'User deleted successfully'
+     message: "User deleted successfully"
     });
    }
   });
  }
 };
+})();

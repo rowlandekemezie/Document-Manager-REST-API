@@ -1,6 +1,7 @@
-"use strict";
-var models = require('./../models');
-var User = models.User;
+(function (){
+  "use strict";
+
+var models = require("./../models");
 var Role = models.Role;
 var Document = models.Document;
 
@@ -22,7 +23,7 @@ module.exports = {
         if (!role) {
           res.status(401).json({
             success: false,
-            message: 'Invalid role'
+            message: "Invalid role"
           });
         } else if (role) {
           Document.findOne({
@@ -31,7 +32,7 @@ module.exports = {
             if (docs) {
               res.status(403).json({
                 success: false,
-                message: 'Document already exist'
+                message: "Document already exist"
               });
             } else if (!docs) {
               var userId = req.decoded._id;
@@ -43,7 +44,7 @@ module.exports = {
                 } else {
                   res.status(200).json({
                     success: true,
-                    message: 'Document successfully created'
+                    message: "Document successfully created"
                   });
                 }
               });
@@ -68,7 +69,7 @@ module.exports = {
       } else if (!docs) {
         res.send({
           success: false,
-          message: 'No document found'
+          message: "No document found"
         });
       } else {
         res.json(docs);
@@ -90,7 +91,7 @@ module.exports = {
       } else if (!doc) {
         res.status(404).json({
           success: false,
-          message: 'No document found for the Id'
+          message: "No document found for the Id"
         });
       } else {
         res.json(doc);
@@ -112,7 +113,7 @@ module.exports = {
       } else if (!docs) {
         res.send({
           success: false,
-          message: 'No document found'
+          message: "No document found"
         });
       } else {
         res.json(docs);
@@ -134,7 +135,7 @@ module.exports = {
       } else if (!docs) {
         res.status(404).json({
           success: false,
-          message: 'User has no document'
+          message: "User has no document"
         });
       } else {
         res.status(200).json(docs);
@@ -156,7 +157,7 @@ getAllDocumentsForRole: function(req, res){
       } else if (!docs) {
         res.status(404).json({
           success: false,
-          message: 'Role has no document'
+          message: "Role has no document"
         });
       } else {
         res.status(200).json(docs);
@@ -177,12 +178,12 @@ getAllDocumentsForRole: function(req, res){
       } else if (!doc) {
         res.status(404).json({
           success: false,
-          message: 'Document not available'
+          message: "Document not available"
         });
       } else {
         res.status(200).json({
           success: true,
-          message: 'Document updated successfully'
+          message: "Document updated successfully"
         });
       }
     });
@@ -201,14 +202,15 @@ getAllDocumentsForRole: function(req, res){
       } else if (!doc) {
         res.status(404).json({
           success: false,
-          message: 'Document not available'
+          message: "Document not available"
         });
       } else {
         res.status(200).json({
           success: true,
-          message: 'Document deleted successfully'
+          message: "Document deleted successfully"
         });
       }
     });
   }
 };
+})();
