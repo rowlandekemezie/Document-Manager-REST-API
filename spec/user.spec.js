@@ -1,15 +1,16 @@
-"use strict";
+(function(){
+  "use strict";
 
-var fs = require('fs');
-var mongoose = require('mongoose');
-var app = require('./../server');
-var request = require('supertest')(app);
-var jwt = require('jsonwebtoken');
-var config = require('./../config/pass');
-var model = require('./../app/models');
+var fs = require("fs");
+var mongoose = require("mongoose");
+var app = require("./../server");
+var request = require("supertest")(app);
+var jwt = require("jsonwebtoken");
+var config = require("./../config/pass");
+var model = require("./../app/models");
 
-var _userseeds = fs.readFileSync(__dirname + '/../seeds/users.json');
-var _roleseeds = fs.readFileSync(__dirname + '/../seeds/roles.json');
+var _userseeds = fs.readFileSync(__dirname + "/../seeds/users.json");
+var _roleseeds = fs.readFileSync(__dirname + "/../seeds/roles.json");
 
 var User = model.User;
 var Role = model.Role;
@@ -18,7 +19,7 @@ var Role = model.Role;
 var userData = JSON.parse(_userseeds);
 var roleData = JSON.parse(_roleseeds);
 
-describe('to validate users can login and logout', function() {
+describe("to validate users can login and logout", function() {
  beforeEach(function(done) {
   var newRole = new Role(roleData[0]);
   newRole.save();
@@ -35,14 +36,14 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should login user on /users/login endpoint", function(done) {
-  request.post('/api/users/login')
+  request.post("/api/users/login")
   .send({
    userName: userData[0].userName,
    password: userData[0].password
   })
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'Login successful',
+    message: "Login successful",
     success: true
    }));
    expect(res.body.token).toBeDefined();
@@ -56,7 +57,7 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should not login user with the wrong username", function(done) {
-  request.post('/api/users/login')
+  request.post("/api/users/login")
   .send({
    userName: "Hacker1" || undefined,
    psssword: userData[0].password
@@ -64,7 +65,7 @@ describe('to validate users can login and logout', function() {
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'Invalid user'
+    message: "Invalid user"
    }));
    expect(res.unauthorized).toBe(true);
    expect(err).not.toBeUndefined();
@@ -74,7 +75,7 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should not login user with the wrong password", function(done) {
-  request.post('/api/users/login')
+  request.post("/api/users/login")
   .send({
    userName: userData[0].userName,
    password: "wrongPassword" || undefined
@@ -82,7 +83,7 @@ describe('to validate users can login and logout', function() {
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'Invalid password'
+    message: "Invalid password"
    }));
    expect(res.forbidden).toBe(true);
    expect(err).not.toBeUndefined();
@@ -92,7 +93,7 @@ describe('to validate users can login and logout', function() {
  });
 
  it("should logout user", function(done) {
-  request.post('/api/users/logout')
+  request.post("/api/users/logout")
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: true,
@@ -129,14 +130,14 @@ describe("CREATE USER POST /api/users/", function() {
    role: "Librarian",
    password: "awesomecool"
   };
-  request.post('/api/users/')
+  request.post("/api/users/")
   .send(newUser)
   .expect(200)
   .end(function(err, res) {
    expect(err).toBeNull();
    expect(res.body).toEqual(jasmine.objectContaining({
     success: true,
-    message: 'User created successfully'
+    message: "User created successfully"
    }));
    done();
   });
@@ -151,13 +152,13 @@ describe("CREATE USER POST /api/users/", function() {
    role: "Librarian",
    password: "awesomecool"
   };
-  request.post('/api/users/')
+  request.post("/api/users/")
   .send(newuser)
   .expect(401)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'UserName already exist'
+    message: "UserName already exist"
    }));
    expect(err).not.toBeUndefined();
    expect(err).toBeNull();
@@ -171,16 +172,16 @@ describe("CREATE USER POST /api/users/", function() {
    firstName: "Akodi",
    lastName: "Gattaffer",
    email: "akodigattaffer@gmail.com",
-   role: "Doesn'tExist",
+   role: "DoesntExist",
    password: "awesomecool"
   };
-  request.post('/api/users/')
+  request.post("/api/users/")
   .send(newuser)
   .expect(401)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'Invalid role'
+    message: "Invalid role"
    }));
    expect(err).not.toBeUndefined();
    expect(err).toBeNull();
@@ -197,13 +198,13 @@ describe("CREATE USER POST /api/users/", function() {
    role: undefined,
    password: "awesomecool"
   };
-  request.post('/api/users/')
+  request.post("/api/users/")
   .send(newuser)
   .expect(401)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'Please, provide your role'
+    message: "Please, provide your role"
    }));
    expect(err).not.toBeUndefined();
    expect(err).toBeNull();
@@ -214,19 +215,19 @@ describe("CREATE USER POST /api/users/", function() {
  it("should not create user without firstName and lastName", function(done) {
   var newuser = {
    userName: userData[2].userName,
-   firstName: '' || undefined,
-   lastName: '' || undefined,
+   firstName: "" || undefined,
+   lastName: "" || undefined,
    email: "akodigattaffer@gmail.com",
    role: "Librarian",
    password: "awesomecool"
   };
-  request.post('/api/users/')
+  request.post("/api/users/")
   .send(newuser)
   .expect(401)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'Please, provide your firstName and lastName'
+    message: "Please, provide your firstName and lastName"
    }));
    expect(err).not.toBeUndefined();
    expect(err).toBeNull();
@@ -257,8 +258,8 @@ describe("GET USERS GET /api/users", function() {
  });
 
  it("should get a specific user by his id", function(done) {
-  request.get('/api/users/' + id)
-  .set('x-access-token', userToken)
+  request.get("/api/users/" + id)
+  .set("x-access-token", userToken)
   .expect(200)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
@@ -275,26 +276,26 @@ describe("GET USERS GET /api/users", function() {
  });
 
  it("should return no user with any invalid id", function(done) {
-  var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-  request.get('/api/users/' + invalidId)
-  .set('x-access-token', userToken)
+  var invalidId = mongoose.Types.ObjectId("4edd40c86762e0fb12000003");
+  request.get("/api/users/" + invalidId)
+  .set("x-access-token", userToken)
   .expect(401).
   end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'No user found by that Id'
+    message: "No user found by that Id"
    }));
    done();
   });
  });
 
- it("should not return a user unless the viewer is authenticated", function(done) {
-  request.get('/api/users/' + id)
+ it("should not return a user unless authenticated", function(done) {
+  request.get("/api/users/" + id)
   .expect(403)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
     success: false,
-    message: 'Please provide your token'
+    message: "Please provide your token"
    }));
    done();
   });
@@ -305,28 +306,28 @@ describe("GET USERS GET /api/users", function() {
   var newRole = new Role(roleData[2]);
   newUser.save();
   newRole.save();
-  request.get('/api/users/')
-  .set('x-access-token', userToken)
+  request.get("/api/users/")
+  .set("x-access-token", userToken)
   .expect(200)
   .end(function(err, res) {
    expect(res.body.length).toEqual(2);
    expect(res.body[1]).toEqual(jasmine.objectContaining({
-    userName: 'Ify',
+    userName: "Ify",
     name: {
-     firstName: 'Ifeanyi',
-     lastName: 'Oraeolosi'
+     firstName: "Ifeanyi",
+     lastName: "Oraeolosi"
     },
-    email: 'ifeanyioraeolosi@gmail.com',
-    role: 'Librarian'
+    email: "ifeanyioraeolosi@gmail.com",
+    role: "Librarian"
    }));
    expect(res.body[0]).toEqual(jasmine.objectContaining({
-    userName: 'Godson',
+    userName: "Godson",
     name: {
-     firstName: 'Goddy',
-     lastName: 'Ukpere'
+     firstName: "Goddy",
+     lastName: "Ukpere"
     },
-    email: 'godsonukpere@gmail.com',
-    role: 'Trainer'
+    email: "godsonukpere@gmail.com",
+    role: "Trainer"
    }));
    done();
   });
@@ -355,20 +356,20 @@ describe("UPDATE USER PUT /api/users/", function() {
  });
 
  it("should update a specific user with a valid id", function(done) {
-  request.put('/api/users/' + id)
-  .set('x-access-token', userToken)
+  request.put("/api/users/" + id)
+  .set("x-access-token", userToken)
   .send({
-   userName: 'Haski',
+   userName: "Haski",
    name: {
-    firstName: 'Lamboni',
-    lastName: 'Ruskima',
+    firstName: "Lamboni",
+    lastName: "Ruskima",
    },
-   email: 'lamboniruskina@gmail.com',
-   password: 'PythonPhpJavascript',
-   role: 'Documentarian'
+   email: "lamboniruskina@gmail.com",
+   password: "PythonPhpJavascript",
+   role: "Documentarian"
   }).expect(200).end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'User details updated',
+    message: "User details updated",
     success: true
    }));
    expect(err).toBeDefined();
@@ -378,22 +379,22 @@ describe("UPDATE USER PUT /api/users/", function() {
  });
 
  it("should not update user with an invalid role", function(done) {
-  request.put('/api/users/' + id)
-  .set('x-access-token', userToken)
+  request.put("/api/users/" + id)
+  .set("x-access-token", userToken)
   .send({
-   userName: 'Haski',
+   userName: "Haski",
    name: {
-    firstName: 'Lamboni',
-    lastName: 'Ruskima',
+    firstName: "Lamboni",
+    lastName: "Ruskima",
    },
-   email: 'lamboniruskina@gmail.com',
-   password: 'PythonPhpJavascript',
-   role: '' || undefined
+   email: "lamboniruskina@gmail.com",
+   password: "PythonPhpJavascript",
+   role: "" || undefined
   })
   .expect(404)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'Please provide your role',
+    message: "Please provide your role",
     success: false
    }));
    expect(err).toBeDefined();
@@ -403,21 +404,21 @@ describe("UPDATE USER PUT /api/users/", function() {
  });
 
  it("should not update invalid id", function(done) {
-  var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-  request.put('/api/users/' + invalidId)
-  .set('x-access-token', userToken)
+  var invalidId = mongoose.Types.ObjectId("4edd40c86762e0fb12000003");
+  request.put("/api/users/" + invalidId)
+  .set("x-access-token", userToken)
   .send({
-   userName: 'Haski',
+   userName: "Haski",
    name: {
-    firstName: 'Lamboni',
-    lastName: 'Ruskima',
+    firstName: "Lamboni",
+    lastName: "Ruskima",
    },
-   email: 'lamboniruskina@gmail.com',
-   password: 'PythonPhpJavascript',
+   email: "lamboniruskina@gmail.com",
+   password: "PythonPhpJavascript",
    role: "Documentarian"
   }).expect(404).end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'User not available',
+    message: "User not available",
     success: false
    }));
    expect(err).toBeDefined();
@@ -427,19 +428,19 @@ describe("UPDATE USER PUT /api/users/", function() {
  });
 
  it("should be authenticated before user can update", function(done) {
-  request.put('/api/users/' + id)
+  request.put("/api/users/" + id)
   .send({
-   userName: 'Haski',
+   userName: "Haski",
    name: {
-    firstName: 'Lamboni',
-    lastName: 'Ruskima',
+    firstName: "Lamboni",
+    lastName: "Ruskima",
    },
-   email: 'lamboniruskina@gmail.com',
-   password: 'PythonPhpJavascript',
+   email: "lamboniruskina@gmail.com",
+   password: "PythonPhpJavascript",
    role: "Documentarian"
   }).expect(403).end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'Please provide your token',
+    message: "Please provide your token",
     success: false
    }));
    expect(err).toBeDefined();
@@ -471,12 +472,12 @@ describe("DELETE USER DELETE /api/users/", function() {
  });
 
  it("should delete user with a specific id", function(done) {
-  request.delete('/api/users/' + id)
-  .set('x-access-token', userToken)
+  request.delete("/api/users/" + id)
+  .set("x-access-token", userToken)
   .expect(200)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'User deleted successfully',
+    message: "User deleted successfully",
     success: true
    }));
    expect(err).toBeDefined();
@@ -486,11 +487,11 @@ describe("DELETE USER DELETE /api/users/", function() {
  });
 
  it("should not delete user if not authenticated", function(done) {
-  request.delete('/api/users/' + id)
+  request.delete("/api/users/" + id)
   .expect(403)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'Please provide your token',
+    message: "Please provide your token",
     success: false
    }));
    expect(err).toBeDefined();
@@ -500,13 +501,13 @@ describe("DELETE USER DELETE /api/users/", function() {
  });
 
  it("should not delete user with invalid id", function(done) {
-  var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-  request.delete('/api/users/' + invalidId)
-  .set('x-access-token', userToken)
+  var invalidId = mongoose.Types.ObjectId("4edd40c86762e0fb12000003");
+  request.delete("/api/users/" + invalidId)
+  .set("x-access-token", userToken)
   .expect(404)
   .end(function(err, res) {
    expect(res.body).toEqual(jasmine.objectContaining({
-    message: 'User not available',
+    message: "User not available",
     success: false
    }));
    expect(err).toBeDefined();
@@ -515,3 +516,4 @@ describe("DELETE USER DELETE /api/users/", function() {
   });
  });
 });
+})();

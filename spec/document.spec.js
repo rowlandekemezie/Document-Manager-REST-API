@@ -1,17 +1,18 @@
-"use strict";
+(function() {
+  "use strict";
 
-var fs = require('fs');
-var mongoose = require('mongoose');
-var app = require('./../server');
-var request = require('supertest')(app);
-var jwt = require('jsonwebtoken');
-var config = require('./../config/pass');
-var model = require('./../app/models');
-var date = require('./../seeds/dateHelper')();
+var fs = require("fs");
+var mongoose = require("mongoose");
+var app = require("./../server");
+var request = require("supertest")(app);
+var jwt = require("jsonwebtoken");
+var config = require("./../config/pass");
+var model = require("./../app/models");
+var date = require("./../seeds/dateHelper")();
 
-var _userseeds = fs.readFileSync(__dirname + '/../seeds/users.json');
-var _roleseeds = fs.readFileSync(__dirname + '/../seeds/roles.json');
-var _documentseeds = fs.readFileSync(__dirname + '/../seeds/documents.json');
+var _userseeds = fs.readFileSync(__dirname + "/../seeds/users.json");
+var _roleseeds = fs.readFileSync(__dirname + "/../seeds/roles.json");
+var _documentseeds = fs.readFileSync(__dirname + "/../seeds/documents.json");
 
 var userData = JSON.parse(_userseeds);
 var roleData = JSON.parse(_roleseeds);
@@ -46,8 +47,8 @@ describe("DOCUMENT TESTS", function() {
   });
 
   it("should create document for user with valid credentials", function(done) {
-   request.post('/api/documents/')
-   .set('x-access-token', userToken).send({
+   request.post("/api/documents/")
+   .set("x-access-token", userToken).send({
     title: docData[0].title,
     content: docData[0].content,
     role: docData[0].role,
@@ -56,7 +57,7 @@ describe("DOCUMENT TESTS", function() {
     expect(err).not.toBeUndefined();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: true,
-     message: 'Document successfully created'
+     message: "Document successfully created"
     }));
     done();
    });
@@ -67,8 +68,8 @@ describe("DOCUMENT TESTS", function() {
    doctest.ownerId = id;
    var newDoc = new Document(doctest);
    newDoc.save();
-   request.post('/api/documents/')
-   .set('x-access-token', userToken)
+   request.post("/api/documents/")
+   .set("x-access-token", userToken)
    .send(docData[0])
    .expect(403)
    .end(function(err, res) {
@@ -76,40 +77,41 @@ describe("DOCUMENT TESTS", function() {
     expect(err).toBeNull();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: false,
-     message: 'Document already exist'
+     message: "Document already exist"
     }));
     done();
    });
   });
 
-  it("should not create a document without the user authenticated", function(done) {
-   request.post('/api/documents/')
+  it("should not create a document without the user authenticated",
+    function(done) {
+   request.post("/api/documents/")
    .send(docData[1])
    .expect(403)
    .end(function(err, res) {
     expect(err).not.toBeUndefined();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: false,
-     message: 'Please provide your token'
+     message: "Please provide your token"
     }));
     done();
    });
   });
 
   it("should not create a document without a valid role", function(done) {
-   request.post('/api/documents')
-   .set('x-access-token', userToken)
+   request.post("/api/documents")
+   .set("x-access-token", userToken)
    .expect(403)
    .send({
     title: docData[0].title,
     content: docData[0].content,
-    role: 'DoesntExist' || undefined
+    role: "DoesntExist" || undefined
    }).end(function(err, res) {
     expect(err).toBeDefined();
     expect(err).not.toBeNull();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: false,
-     message: 'Invalid role'
+     message: "Invalid role"
     }));
     done();
    });
@@ -117,7 +119,7 @@ describe("DOCUMENT TESTS", function() {
  });
 
  describe("GET, UPDATE, DELETE DOCUMENTS on /api/documents/", function() {
-  var docId, roleTitle, date, userToken, limit = 1;
+  var docId, roleTitle, userToken, limit = 1;
   beforeEach(function(done) {
    var newRole = new Role(roleData[0]);
    var newUser = new User(userData[0]);
@@ -161,47 +163,53 @@ describe("DOCUMENT TESTS", function() {
     newDoc.save();
    }
 
-   request.get('/api/documents/')
-   .set('x-access-token', userToken)
+   request.get("/api/documents/")
+   .set("x-access-token", userToken)
    .expect(200)
    .end(function(err, res) {
     expect(err).toBeNull();
     expect(res.body.length).toBe(3);
     expect(res.body[0]).toEqual(jasmine.objectContaining({
-     title: 'The regalia',
-     role: 'Documentarian',
-     content: 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty'
+     title: "The regalia",
+     role: "Documentarian",
+     content: "Kings and people of royal heritage are known for their " +
+     "great outward look at all times as a demonstration of their royalty"
     }));
     expect(res.body[1]).toEqual(jasmine.objectContaining({
-     title: 'The quest for dividends of democracy',
-     role: 'Trainer',
-     content: 'Democracy without dividend is arnachy in disguise. Every through democratic institution must plan to deliver to the citizens they represent'
+     title: "The quest for dividends of democracy",
+     role: "Trainer",
+     content: "Democracy without dividend is arnachy in disguise. " +
+     "Every through democratic institution must plan to deliver " +
+     "to the citizens they represent"
     }));
     expect(res.body[2]).toEqual(jasmine.objectContaining({
-     title: 'The beautiful ones are not yet born',
-     role: 'Librarian',
-     content: 'It makes more sense when people understand the essence of existence rather outward beauty that fades away and is no more'
+     title: "The beautiful ones are not yet born",
+     role: "Librarian",
+     content: "It makes more sense when people understand the essence of "+
+     "existence rather outward beauty that fades away and is no more"
     }));
     done();
    });
   });
 
   it("should return all documents limited by a limit value", function(done){
-    request.get('/api/documents/limit/' + limit)
-    .set('x-access-token', userToken)
+    request.get("/api/documents/limit/" + limit)
+    .set("x-access-token", userToken)
     .expect(200)
     .end(function(err, res){
      expect(res.body.length).toBe(1);
      expect(res.body[0]).toEqual(jasmine.objectContaining({
-      title: 'The regalia',
-      role: 'Documentarian',
-      content: 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty'
+      title: "The regalia",
+      role: "Documentarian",
+      content: "Kings and people of royal heritage are known for their great " +
+      "outward look at all times as a demonstration of their royalty"
     }));
     done();
    });
   });
 
-  it("should return all documents for a specific user on GET /api/users/:id/documents/", function(done) {
+  it("should return all documents for a user on GET /api/users/:id/documents/",
+   function(done) {
    var user1 = new User(userData[1]);
    user1.save();
    var doc1 = docData[1];
@@ -213,119 +221,125 @@ describe("DOCUMENT TESTS", function() {
    newDoc1.save();
    newDoc2.save();
 
-   request.get('/api/users/' + user1._id + '/documents')
-   .set('x-access-token', userToken)
+   request.get("/api/users/" + user1._id + "/documents")
+   .set("x-access-token", userToken)
    .expect(200)
    .end(function(err, res) {
     expect(res.body.length).toBe(2);
     expect(res.body[0]).toEqual(jasmine.objectContaining({
-     title: 'The quest for dividends of democracy',
-     role: 'Trainer',
-     content: 'Democracy without dividend is arnachy in disguise. Every through democratic institution must plan to deliver to the citizens they represent'
+     title: "The quest for dividends of democracy",
+     role: "Trainer",
+     content: "Democracy without dividend is arnachy in disguise. "+
+     "Every through democratic institution must plan to "+
+     "deliver to the citizens they represent"
     }));
     expect(res.body[1]).toEqual(jasmine.objectContaining({
-     title: 'The beautiful ones are not yet born',
-     role: 'Librarian',
-     content: 'It makes more sense when people understand the essence of existence rather outward beauty that fades away and is no more'
+     title: "The beautiful ones are not yet born",
+     role: "Librarian",
+     content: "It makes more sense when people understand the "+
+     "essence of existence rather outward beauty that fades away and is no more"
     }));
     done();
    });
   });
 
-  it("should return documents for a specfic role GET /api/documents/role/:title/:limit", function(done){
-    request.get('/api/documents/role/' + roleTitle + '/' + limit)
-    .set('x-access-token', userToken)
+  it("should return documents for a specfic role", function(done){
+    request.get("/api/documents/role/" + roleTitle + "/" + limit)
+    .set("x-access-token", userToken)
     .expect(200)
     .end(function(err, res){
       expect(res.body.length).toEqual(1);
       expect(res.body[0]).toEqual(jasmine.objectContaining({
-         title : 'The regalia',
-         content : 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty', 
-         role : 'Documentarian'
+         title : "The regalia",
+         content : "Kings and people of royal heritage are known for their "+
+         "great outward look at all times as a demonstration of their royalty",
+         role : "Documentarian"
      }));
       done();
     });
   });
 
-  it("should return documents for a specfic date GET /api/documents/date/:dateCreated/:limit", function(done){
-    request.get('/api/documents/date/' + date + '/' + limit)
-    .set('x-access-token', userToken)
+  it("should return documents for a specfic date", function(done){
+    request.get("/api/documents/date/" + date + "/" + limit)
+    .set("x-access-token", userToken)
     .expect(200)
     .end(function(err, res){
       expect(res.body.length).toEqual(1);
       expect(res.body[0]).toEqual(jasmine.objectContaining({
-         title : 'The regalia',
-         content : 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty', 
-         role : 'Documentarian'
+         title : "The regalia",
+         content : "Kings and people of royal heritage are known for their "+
+         "great outward look at all times as a demonstration of their royalty",
+         role : "Documentarian"
      }));
       done();
     });
   });
 
   it("should not return document for an invalid user Id", function(done) {
-   var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-   request.delete('/api/documents/' + invalidId)
-   .set('x-access-token', userToken)
+   var invalidId = mongoose.Types.ObjectId("4edd40c86762e0fb12000003");
+   request.delete("/api/documents/" + invalidId)
+   .set("x-access-token", userToken)
    .expect(404)
    .end(function(err, res) {
     expect(res).not.toBeNull();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: false,
-     message: 'Document not available'
+     message: "Document not available"
     }));
     done();
    });
   });
 
   it("should return document for an id", function(done) {
-   request.get('/api/documents/' + docId)
-   .set('x-access-token', userToken)
+   request.get("/api/documents/" + docId)
+   .set("x-access-token", userToken)
    .expect(200)
    .end(function(err, res) {
     expect(res).not.toBeNull();
     expect(res.body).toEqual(jasmine.objectContaining({
-     title: 'The regalia',
-     role: 'Documentarian',
-     content: 'Kings and people of royal heritage are known for their great outward look at all times as a demonstration of their royalty'
+     title: "The regalia",
+     role: "Documentarian",
+     content: "Kings and people of royal heritage are known for their great "+
+     "outward look at all times as a demonstration of their royalty"
     }));
     done();
    });
   });
 
   it("should not return any document for invalid id", function(done) {
-   var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-   request.get('/api/documents/' + invalidId)
-   .set('x-access-token', userToken)
+   var invalidId = mongoose.Types.ObjectId("4edd40c86762e0fb12000003");
+   request.get("/api/documents/" + invalidId)
+   .set("x-access-token", userToken)
    .expect(404)
    .end(function(err, res) {
     expect(res).not.toBeNull();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: false,
-     message: 'No document found for the Id'
+     message: "No document found for the Id"
     }));
     done();
    });
   });
 
   it("should update document by id", function(done) {
-   request.put('/api/documents/' + docId)
-   .set('x-access-token', userToken)
+   request.put("/api/documents/" + docId)
+   .set("x-access-token", userToken)
    .expect(200)
    .send({
-    title: 'Testing update route',
-    content: 'Nice practicing and doing TDD'
+    title: "Testing update route",
+    content: "Nice practicing and doing TDD"
    }).end(function(err, res) {
     expect(res.body).toEqual(jasmine.objectContaining({
      success: true,
-     message: 'Document updated successfully'
+     message: "Document updated successfully"
     }));
-    request.get('/api/documents/' + docId)
-    .set('x-access-token', userToken)
+    request.get("/api/documents/" + docId)
+    .set("x-access-token", userToken)
     .expect(404)
     .end(function(err, res) {
      expect(res.body).toEqual(jasmine.objectContaining({
-      title: 'Testing update route',
-      content: 'Nice practicing and doing TDD'
+      title: "Testing update route",
+      content: "Nice practicing and doing TDD"
      }));
      done();
     });
@@ -333,20 +347,20 @@ describe("DOCUMENT TESTS", function() {
   });
 
   it("should delete document by id", function(done) {
-   request.delete('/api/documents/' + docId).expect(200)
-   .set('x-access-token', userToken)
+   request.delete("/api/documents/" + docId).expect(200)
+   .set("x-access-token", userToken)
    .end(function(err, res) {
     expect(res.body).toEqual(jasmine.objectContaining({
      success: true,
-     message: 'Document deleted successfully'
+     message: "Document deleted successfully"
     }));
-    request.get('/api/documents/' + docId)
+    request.get("/api/documents/" + docId)
     .expect(404)
-    .set('x-access-token', userToken)
+    .set("x-access-token", userToken)
     .end(function(err, res) {
      expect(res.body).toEqual(jasmine.objectContaining({
       success: false,
-      message: 'No document found for the Id'
+      message: "No document found for the Id"
      }));
      done();
     });
@@ -354,18 +368,19 @@ describe("DOCUMENT TESTS", function() {
   });
 
   it("should not delete  any document by an invalid id", function(done) {
-   var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
-   request.delete('/api/documents/' + invalidId)
-   .set('x-access-token', userToken)
+   var invalidId = mongoose.Types.ObjectId("4edd40c86762e0fb12000003");
+   request.delete("/api/documents/" + invalidId)
+   .set("x-access-token", userToken)
    .expect(404)
    .end(function(err, res) {
     expect(res).not.toBeNull();
     expect(res.body).toEqual(jasmine.objectContaining({
      success: false,
-     message: 'Document not available'
+     message: "Document not available"
     }));
     done();
    });
   });
  });
 });
+})();
