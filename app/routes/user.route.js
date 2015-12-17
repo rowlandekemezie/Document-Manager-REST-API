@@ -1,29 +1,30 @@
-"use strict";
+(function() {
+ 'use strict';
 
-var userController = require('./../controllers/user.controller');
-var roleController = require('./../controllers/role.controller');
-var userAuth = require('./../middlewares/userAuth');
+ var userController = require('./../controllers/user.controller'),
+  userAuth = require('./../middlewares/userAuth');
+ 
+ // create route definitions
+ module.exports = function(router) {
 
-// create route definitions
-module.exports = function(router) {
+  // route for login. This requires autheentication
+  router.route('/users/login')
+  	.post(userController.login);
 
- // route for login. This requires autheentication
- router.route('/users/login')
-  .post(userController.login);
+  // route for logout. This requires that a user is signIn
+  router.route('/users/logout')
+  	.post(userController.logout);
 
- // route for logout. This requires that a user is signIn
- router.route('/users/logout')
-  .post(userController.logout);
+  // route to create new user requires no authentication but viewing users does.
+  router.route('/users')
+  	.post(userController.createUser)
+  	.get(userAuth, userController.getAllUsers);
 
- // route to create new user requires no authentication but viewing users does.
- router.route('/users')
-  .post(userController.createUser)
-  .get(userAuth, userController.getAllUsers);
-
- // routes to GET, UPDATE and DELETE users.
- // This requires authentication
- router.route('/users/:id')
-  .get(userAuth, userController.getUser)
-  .put(userAuth, userController.updateUser)
-  .delete(userAuth, userController.deleteUser);
-};
+  // routes to GET, UPDATE and DELETE users.
+  // This requires authentication
+  router.route('/users/:id')
+  	.get(userAuth, userController.getUser)
+  	.put(userAuth, userController.updateUser)
+  	.delete(userAuth, userController.deleteUser);
+ };
+})();

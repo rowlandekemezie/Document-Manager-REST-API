@@ -1,7 +1,9 @@
-"use strict";
-var documentController = require('./../controllers/document.controller');
-var userController = require('./../controllers/user.controller');
-var userAuth = require('./../middlewares/userAuth');
+(function (){
+  'use strict';
+
+var documentController = require('./../controllers/document.controller'),
+ userAuth = require('./../middlewares/userAuth');
+
 module.exports = function(router) {
 
   // endpoints to create and documents
@@ -31,3 +33,4 @@ module.exports = function(router) {
  router.route('/documents/date/:date/:limit')
  	.get(userAuth, documentController.getDocumentByDate);
 };
+})();
