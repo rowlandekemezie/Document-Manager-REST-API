@@ -336,6 +336,56 @@
     });
    });
 
+   it('should not update document of another user', function(done){
+    var newUser1 = new User(userData[1]);
+    newUser1.save();
+    var anotheUser = jwt.sign(newUser1, config.secret, {
+      expiresIn: 69400
+    });
+    request.put('/api/documents/' + docId)
+    .set('x-access-token', anotheUser)
+    .send({
+      title: 'You can\'t update another\'s document',
+      content: 'Document can only be updated by owner, '+
+      'SuperAdmin, or Documentarian'
+    })
+    .end(function(err, res){
+      expect(err).toBeNull();
+      expect(res.status).toBe(401);
+      expect(res.unauthorized).toBe(true);
+      expect(res.body).toEqual(jasmine.objectContaining({
+        success: false,
+        message: 'Not authorized'
+      }));
+       done();
+    });
+   });
+
+   it('should not delete document of another user', function(done){
+    var newUser1 = new User(userData[1]);
+    newUser1.save();
+    var anotheUser = jwt.sign(newUser1, config.secret, {
+      expiresIn: 69400
+    });
+    request.put('/api/documents/' + docId)
+    .set('x-access-token', anotheUser)
+    .send({
+      title: 'You can\'t delete another\'s document',
+      content: 'Document can only be delete by owner, '+
+      'SuperAdmin, or Documentarian'
+    })
+    .end(function(err, res){
+      expect(err).toBeNull();
+      expect(res.status).toBe(401);
+      expect(res.unauthorized).toBe(true);
+      expect(res.body).toEqual(jasmine.objectContaining({
+        success: false,
+        message: 'Not authorized'
+      }));
+       done();
+    });
+   });
+
    it('should delete document by id', function(done) {
     request.delete('/api/documents/' + docId)
     .set('x-access-token', userToken)
