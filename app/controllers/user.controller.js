@@ -2,14 +2,14 @@
  "use strict";
 
  var models = require("./../models"),
-     config = require("./../../config/pass"),
-     jwt = require("jsonwebtoken"),
-     /**
-      * Models instancies
-      * @type {[Objects]}
-     */
-     User = models.User,
-     Role = models.Role;
+  config = require("./../../config/pass"),
+  jwt = require("jsonwebtoken"),
+  /**
+   * Models instancies
+   * @type {[Objects]}
+   */
+  User = models.User,
+  Role = models.Role;
 
  module.exports = {
   /**
@@ -41,7 +41,7 @@
     userName: req.body.userName
    }, function(err, user) {
     if (err) {
-      res.status(500).send(err);
+     res.status(500).send(err);
     }
     if (!user) {
      res.status(406).send({
