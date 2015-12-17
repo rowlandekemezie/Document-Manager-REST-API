@@ -18,10 +18,10 @@ module.exports = {
       title: doc.role
     }, function(err, role) {
       if (err) {
-        res.send(err);
+        res.status(500).send(err);
       } else {
         if (!role) {
-          res.status(401).json({
+          res.status(406).json({
             success: false,
             message: "Invalid role"
           });
@@ -30,7 +30,7 @@ module.exports = {
             title: doc.title
           }, function(err, docs) {
             if (docs) {
-              res.status(403).json({
+              res.status(409).json({
                 success: false,
                 message: "Document already exist"
               });
@@ -40,7 +40,7 @@ module.exports = {
               var newDoc = new Document(doc);
               newDoc.save(function(err) {
                 if (err) {
-                  res.send(err);
+                  res.status(500).send(err);
                 } else {
                   res.status(200).json({
                     success: true,
@@ -65,14 +65,14 @@ module.exports = {
     .limit(parseInt(req.params.limit))
     .exec(function(err, docs) {
       if (err) {
-        res.send(err);
+        res.status(500).send(err);
       } else if (!docs) {
-        res.send({
+        res.status(404).json({
           success: false,
           message: "No document found"
         });
       } else {
-        res.json(docs);
+        res.status(200).json(docs);
       }
     });
   },
@@ -87,14 +87,14 @@ module.exports = {
       _id: req.params.id
     }, function(err, doc) {
       if (err) {
-        res.send(err);
+        res.status(500).send(err);
       } else if (!doc) {
         res.status(404).json({
           success: false,
           message: "No document found for the Id"
         });
       } else {
-        res.json(doc);
+        res.status(200).json(doc);
       }
     });
   },
@@ -109,14 +109,14 @@ module.exports = {
     .limit(parseInt(req.params.limit))
     .exec(function(err, docs) {
       if (err) {
-        res.send(err);
+        res.status(500).send(err);
       } else if (!docs) {
-        res.send({
+        res.status(404).json({
           success: false,
           message: "No document found"
         });
       } else {
-        res.json(docs);
+        res.status(200).json(docs);
       }
     });
   },
@@ -131,7 +131,7 @@ module.exports = {
     .limit(parseInt(req.params.limit))
     .exec(function(err, docs) {
       if (err) {
-        res.send(err);
+        res.status(500).send(err);
       } else if (!docs) {
         res.status(404).json({
           success: false,
@@ -153,7 +153,7 @@ getAllDocumentsForRole: function(req, res){
      .limit(parseInt(req.params.limit))
     .exec(function(err, docs) {
       if (err) {
-        res.send(err);
+        res.status(500).send(err);
       } else if (!docs) {
         res.status(404).json({
           success: false,
