@@ -171,14 +171,9 @@
    * @return {[JSON]}     [status of search result]
    */
   updateDocument: function(req, res) {
-   Document.findByIdAndUpdate(req.params.id, req.body, function(err, doc) {
+   Document.findByIdAndUpdate(req.params.id, req.body, function(err) {
     if (err) {
      res.status(500).send(err);
-    } else if (!doc) {
-     res.status(404).json({
-      success: false,
-      message: 'Document not available'
-     });
     } else {
      res.status(200).json({
       success: true,
@@ -194,14 +189,9 @@
    * @return {[JSON]}     [status]
    */
   deleteDocument: function(req, res) {
-   Document.findByIdAndRemove(req.params.id, req.body, function(err, doc) {
+   Document.findByIdAndRemove(req.params.id, function(err) {
     if (err) {
      res.status(500).send(err);
-    } else if (!doc) {
-     res.status(404).json({
-      success: false,
-      message: 'Document not available'
-     });
     } else {
      res.status(200).json({
       success: true,
