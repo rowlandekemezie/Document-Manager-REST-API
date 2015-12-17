@@ -1,11 +1,12 @@
-"use strict";
-var app = require('./config/express');
+(function() {
+ 'use strict';
 
-var port = process.env.PORT || 5555;
+ var app = require('./config/express');
+ var port = process.env.PORT || 5555;
+ app.listen(port, function() {
+  console.log('listening on port ' + port);
+ });
 
-app.listen(port, function(){
- console.log("listening on port "+ port);
-});
-
-// expose the  server to app
-module.exports = app;
+ // expose the  server to app
+ module.exports = app;
+})();
