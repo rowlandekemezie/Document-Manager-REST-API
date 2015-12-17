@@ -2,7 +2,8 @@
   'use strict';
 
 var documentController = require('./../controllers/document.controller'),
- userAuth = require('./../middlewares/userAuth');
+ userAuth = require('./../middlewares/userAuth'),
+ userAccess = require('./../middlewares/userAccess');
 
 module.exports = function(router) {
 
@@ -15,11 +16,13 @@ module.exports = function(router) {
   router.route('/documents/limit/:limit')
   	.get(userAuth, documentController.getAllDocuments);
 
-  // endpoints to update  and delete document
+  // endpoints to update and delete documents.
+  // A document can only be updated/deleted by either the owner, SuperAdmin,
+  // or Documentarian.
   router.route('/documents/:id')
   	.get(userAuth, documentController.getDocumentById)
-  	.put(userAuth, documentController.updateDocument)
-  	.delete(userAuth, documentController.deleteDocument);
+  	.put(userAuth, userAccess, documentController.updateDocument)
+  	.delete(userAuth, userAccess, documentController.deleteDocument);
 
  // endpoint for user documents
  router.route('/users/:id/documents')
