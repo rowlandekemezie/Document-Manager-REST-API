@@ -1,7 +1,7 @@
 (function() {
- "use strict";
+ 'use strict';
 
- var config = require("./../../config/admin");
+ var config = require('./../../config/admin');
 
  /**
   * [roleAuth Middleware to protect role update route]
@@ -14,7 +14,7 @@
   if (req.body.title === config.role) {
    res.status(401).json({
     success: false,
-    message: "Not authorized"
+    message: 'Not authorized'
    });
   } else {
    next();

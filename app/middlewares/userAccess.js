@@ -7,7 +7,7 @@
   * [userAccess middleware]
   * @param  {[http request]}   req  [http request params and body]
   * @param  {[http response]}   res  [response based on request]
-  * @param  {[control transfer]} next [description]
+  * @param  {[control transfer]} next [transfer control to next middleware]
   * @return {[access privilege]}        [Json response]
   */
  module.exports = function(req, res, next) {

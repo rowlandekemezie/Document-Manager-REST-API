@@ -1,7 +1,7 @@
 (function() {
- "use strict";
+ 'use strict';
 
- var config = require("./../../config/admin");
+ var config = require('./../../config/admin');
  /**
   * [verifyAdmin Middleware to protect roles route(Authorization)]
   * @param  {[http request]}   req  [takes userName of the the request params]
@@ -13,7 +13,7 @@
   if (req.params.userName !== config.admin) {
    res.status(401).json({
     success: false,
-    message: "Access denied"
+    message: 'Access denied'
    });
   } else {
    next();

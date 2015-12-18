@@ -1,8 +1,8 @@
 (function(){
-  "use strict";
+  'use strict';
 
-var config = require("./../../config/pass");
-var jwt = require("jsonwebtoken");
+var config = require('./../../config/pass'),
+ jwt = require('jsonwebtoken');
 /**
   * [Authenthication middleware to protect certain routes]
   * @param {[http request]}   req  [http requset body]
@@ -11,11 +11,11 @@ var jwt = require("jsonwebtoken");
   */
  module.exports = function(req, res, next) {
   var token = req.body.token || req.query.token ||
-  req.headers["x-access-token"];
+  req.headers['x-access-token'];
   if (!token) {
    res.status(403).send({
     success: false,
-    message: "Please provide your token"
+    message: 'Please provide your token'
    });
    return;
   } else {
@@ -23,7 +23,7 @@ var jwt = require("jsonwebtoken");
     if (err) {
      res.status(401).json({
       success: false,
-      message: "Authentication failed"
+      message: 'Authentication failed'
      });
     } else {
      req.decoded = decoded;
