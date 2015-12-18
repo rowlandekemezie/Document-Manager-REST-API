@@ -1,7 +1,7 @@
 (function() {
- "use strict";
+ 'use strict';
 
  module.exports = {
-  "secret": "programmingIsSweet"
+  'secret': 'programmingIsSweet'
  };
 })();

@@ -1,8 +1,8 @@
 (function() {
- "use strict";
+ 'use strict';
 
  module.exports = {
-  admin: "BuddyMaster",
-  role: "SuperAdmin"
+  admin: 'BuddyMaster',
+  role: 'SuperAdmin'
  };
 })();

@@ -1,41 +1,47 @@
-(function (){
-	"use strict";
+(function() {
+ 'use strict';
 
-var express = require("express");
-var morgan = require("morgan");
-var mongoose = require("mongoose");
-var methodOverride = require("method-override");
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-var session = require("express-session");
-var database = require("./database");
-var routes = require("./../app/routes");
+ var express = require('express'),
+  morgan = require('morgan'),
+  mongoose = require('mongoose'),
+  methodOverride = require('method-override'),
+  bodyParser = require('body-parser'),
+  cookieParser = require('cookie-parser'),
+  session = require('express-session'),
+  database = require('./database'),
+  routes = require('./../app/routes');
 
-// mount an instance of express router on the routes
-var router = express.Router();
-routes(router);
+ // mount an instance of express router on the routes
+ var router = express.Router();
+ routes(router);
 
-// instantiate an object instance of express
-var app = express();
+ // instantiate an object instance of express
+ var app = express();
 
-// connect to the database
-mongoose.connect(database.db);
+ // connect to the database
+ mongoose.connect(database.db);
 
-app.use(bodyParser.json());
-app.use(session({
-  secret: "I love andela",
+ app.use(bodyParser.json());
+ app.use(session({
+  secret: 'I love andela',
   resave: false,
   saveUninitialized: true,
-}));
+ }));
 
-app.use(methodOverride("X-HTTP-Method-Override"));
-app.use(bodyParser.json({type: "application/vnd.api+json"}));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(morgan("dev"));
+ app.use(methodOverride('X-HTTP-Method-Override'));
+ app.use(bodyParser.json({
+  type: 'application/vnd.api+json'
+ }));
 
-// mount the router on api root directory
-app.use("/api", router);
+ app.use(bodyParser.urlencoded({
+  extended: true
+ }));
+ app.use(cookieParser());
+ app.use(morgan('dev'));
 
-module.exports = app;
+ // mount the router on api root directory
+ app.use('/api', router);
+
+// expose app
+ module.exports = app;
 })();
