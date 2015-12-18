@@ -3,7 +3,7 @@
 
  var userController = require('./../controllers/user.controller'),
   userAuth = require('./../middlewares/userAuth');
- 
+
  // create route definitions
  module.exports = function(router) {
 
