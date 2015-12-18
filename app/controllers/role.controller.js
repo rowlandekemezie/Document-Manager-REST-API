@@ -1,7 +1,7 @@
 (function() {
- "use strict";
+ 'use strict';
 
- var Role = require("./../models").Role;
+ var Role = require('./../models').Role;
  /**
   * [createRole method]
   * @param  {[http request]} req [request body]
@@ -17,7 +17,7 @@
     if (roles) {
      res.status(409).json({
       success: false,
-      message: "Role already exist"
+      message: 'Role already exist'
      });
     } else {
      var newRole = new Role(adminRole);
@@ -27,7 +27,7 @@
       } else {
        res.status(200).json({
         success: true,
-        message: "Role successfuly created"
+        message: 'Role successfuly created'
        });
       }
      });
@@ -36,7 +36,7 @@
   } else {
    res.status(406).json({
     success: false,
-    message: "Please, provide role to continue"
+    message: 'Please, provide role to continue'
    });
   }
  };
@@ -52,7 +52,7 @@
     res.status(500).send(err);
    } else if (!roles) {
     res.status(404).json({
-     message: "No role exist",
+     message: 'No role exist',
      success: true
     });
    } else {
@@ -75,7 +75,7 @@
    } else if (!role) {
     res.status(404).json({
      success: false,
-     message: "No role found for the Id"
+     message: 'No role found for the Id'
     });
    } else {
     res.status(200).json(role);
@@ -95,11 +95,11 @@
    } else if (!role) {
     res.status(404).json({
      success: false,
-     message: "No role found for the Id"
+     message: 'No role found for the Id'
     });
    } else {
     res.status(200).json({
-     message: "Role successfully updated",
+     message: 'Role successfully updated',
      success: true
     });
    }
@@ -117,12 +117,12 @@
    } else if (!role) {
     res.status(404).json({
      success: false,
-     message: "Role not found"
+     message: 'Role not found'
     });
    } else {
     res.status(200).json({
      success: true,
-     message: "Successfully deleted"
+     message: 'Successfully deleted'
     });
    }
   });

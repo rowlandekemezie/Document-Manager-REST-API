@@ -1,9 +1,9 @@
 (function() {
- "use strict";
+ 'use strict';
 
- var models = require("./../models"),
-  config = require("./../../config/pass"),
-  jwt = require("jsonwebtoken"),
+ var models = require('./../models'),
+  config = require('./../../config/pass'),
+  jwt = require('jsonwebtoken'),
   /**
    * Models instancies
    * @type {[Objects]}
@@ -25,7 +25,7 @@
     } else {
      res.status(200).json({
       success: true,
-      message: "You are logged out"
+      message: 'You are logged out'
      });
     }
    });
@@ -46,14 +46,14 @@
     if (!user) {
      res.status(406).send({
       success: false,
-      message: "Invalid user"
+      message: 'Invalid user'
      });
     } else if (user) {
      var isValid = user.comparePassword(req.body.password);
      if (!isValid) {
       res.status(403).json({
        success: false,
-       message: "Invalid password"
+       message: 'Invalid password'
       });
      } else {
       var token = jwt.sign(user, config.secret, {
@@ -62,7 +62,7 @@
       res.status(200).json({
        token: token,
        success: true,
-       message: "Login successful"
+       message: 'Login successful'
       });
      }
     }
@@ -79,22 +79,22 @@
    if (!userData.role) {
     res.status(406).json({
      success: false,
-     message: "Please, provide your role"
+     message: 'Please, provide your role'
     });
    } else if (!(userData.firstName && userData.lastName)) {
     res.status(406).json({
      success: false,
-     message: "Please, provide your firstName and lastName"
+     message: 'Please, provide your firstName and lastName'
     });
    } else if ((userData.password).length < 8 || undefined) {
     res.status(406).send({
      success: false,
-     message: "Password must not be less than 8 characters"
+     message: 'Password must not be less than 8 characters'
     });
    } else if (!userData.email || !userData.userName) {
     res.status(406).send({
      success: false,
-     message: "Please enter your userName and email"
+     message: 'Please enter your userName and email'
     });
    } else {
     Role.findOne({
@@ -103,7 +103,7 @@
      if (!roles) {
       res.status(406).send({
        success: false,
-       message: "Invalid role"
+       message: 'Invalid role'
       });
      } else {
       User.findOne({
@@ -112,7 +112,7 @@
        if (users) {
         res.status(409).send({
          success: false,
-         message: "UserName already exist"
+         message: 'UserName already exist'
         });
        } else {
         var userDetail = {
@@ -132,7 +132,7 @@
          } else {
           res.status(200).json({
            success: true,
-           message: "User created successfully"
+           message: 'User created successfully'
           });
          }
         });
@@ -155,7 +155,7 @@
     } else if (!users) {
      res.status(404).send({
       success: false,
-      message: "No user found"
+      message: 'No user found'
      });
     } else {
      res.status(200).json(users);
@@ -175,7 +175,7 @@
     } else if (!user) {
      res.status(404).send({
       success: false,
-      message: "No user found by that Id"
+      message: 'No user found by that Id'
      });
     } else {
      res.status(200).json(user);
@@ -207,7 +207,7 @@
     if (!role || role.title === config.admin) {
      res.status(406).json({
       success: false,
-      message: "Please provide your role"
+      message: 'Please provide your role'
      });
     } else {
      User.findByIdAndUpdate(req.params.id, userDetail, function(err, user) {
@@ -216,12 +216,12 @@
       } else if (!user) {
        res.status(404).json({
         success: false,
-        message: "User not available"
+        message: 'User not available'
        });
       } else {
        res.status(200).json({
         success: true,
-        message: "User details updated"
+        message: 'User details updated'
        });
       }
      });
@@ -241,12 +241,12 @@
     } else if (!user) {
      res.status(404).json({
       success: false,
-      message: "User not available"
+      message: 'User not available'
      });
     } else {
      res.status(200).json({
       success: true,
-      message: "User deleted successfully"
+      message: 'User deleted successfully'
      });
     }
    });
