@@ -1,51 +1,45 @@
-"use strict";
+(function() {
+ 'use strict';
 
-var mongoose = require('mongoose');
-var Role = require('./role.model');
-var User = require('./user.model');
-var date = require('./../../seeds/dateHelper')();
+ var mongoose = require('mongoose'),
+  date = require('./../../seeds/dateHelper')();
 
-// var Schema = mongoose.Shema;
-var documentSchema = new mongoose.Schema({
+ // var Schema = mongoose.Shema;
+ var documentSchema = new mongoose.Schema({
   ownerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    Ref: 'User',
-    required: true
+   type: mongoose.Schema.Types.ObjectId,
+   Ref: 'User',
+   required: true
   },
-
   title: {
-    type: String,
-    required: true
+   type: String,
+   required: true
   },
-
   content: {
-    type: String,
-    required: true,
-    validate: /[a-zA-Z\^w]/
+   type: String,
+   required: true,
+   validate: /[a-zA-Z\^w]/
   },
-
   role: {
-    type: String,
-    Ref: 'Role'
+   type: String,
+   Ref: 'Role'
   },
-
   createdAt: {
-    type: String
+   type: String
   },
-
   lastModified: {
-    type: Date,
-    default: Date.now
+   type: Date,
+   default: Date.now
   }
-});
+ });
 
-//set dateCreated and lastmodified to current date before saving a document
-documentSchema.pre('save', function(next) {
-
+ //set dateCreated and lastmodified to current date before saving a document
+ documentSchema.pre('save', function(next) {
   var doc = this;
   doc.createdAt = date;
   next();
-});
+ });
 
-// The mongoose API requires the model name and schema to create the model
-module.exports = mongoose.model("Document", documentSchema);
+ // The mongoose API requires the model name and schema to create the model
+ module.exports = mongoose.model('Document', documentSchema);
+})();
