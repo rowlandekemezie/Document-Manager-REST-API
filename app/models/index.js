@@ -1,13 +1,13 @@
 (function() {
- 'use strict';
+  'use strict';
 
- var Role = require('./role.model'),
-  User = require('./user.model'),
-  Document = require('./document.model');
+  var Role = require('./role.model'),
+    User = require('./user.model'),
+    Document = require('./document.model');
 
- module.exports = {
-  Role: Role,
-  User: User,
-  Document: Document
- };
+  module.exports = {
+    Role: Role,
+    User: User,
+    Document: Document
+  };
 })();
