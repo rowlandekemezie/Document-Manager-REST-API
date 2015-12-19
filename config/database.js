@@ -1,7 +1,7 @@
 (function() {
- 'use strict';
+  'use strict';
 
- module.exports = {
-  db: 'mongodb://localhost/REST-API'
- };
+  module.exports = {
+    db: 'mongodb://localhost/REST-API'
+  };
 })();
