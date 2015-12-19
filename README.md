@@ -1,3 +1,6 @@
+[![Code Climate](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API/badges/gpa.svg)](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API)
+[![Test Coverage](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API/badges/coverage.svg)](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API/coverage)
+
 # Document-Manager-REST-API
 
 Document-Manager-REST-API is a  RESTful API built with Express, Node, and Mongodb. The application allows you to manage users, roles and documents with assigned authorization. Basically, it implements CRUD(Create-Read-Update-Delete) for User, Role, and Document models.
