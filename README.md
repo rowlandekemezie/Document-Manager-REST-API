@@ -1,5 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API/badges/gpa.svg)](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API)
-[![Test Coverage](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API/badges/coverage.svg)](https://codeclimate.com/github/andela-rekemezie/Document-Manager-REST-API/coverage)
+[![Code Climate](https://codeclimate.com/repos/56713dac42795072ee00011e/badges/f59b3386d66cdde21c2b/gpa.svg)](https://codeclimate.com/repos/56713dac42795072ee00011e/feed)
 
 # Document-Manager-REST-API
 
