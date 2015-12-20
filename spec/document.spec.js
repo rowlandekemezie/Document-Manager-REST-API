@@ -2,7 +2,7 @@
   'use strict';
 
   var mongoose = require('mongoose'),
-    app = require('./../server'),
+    app = require('./../index'),
     request = require('supertest')(app),
     jwt = require('jsonwebtoken'),
     config = require('./../config/pass'),

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var app = require('./../server'),
+  var app = require('./../index'),
     mongoose = require('mongoose'),
     request = require('supertest')(app),
     jwt = require('jsonwebtoken'),
