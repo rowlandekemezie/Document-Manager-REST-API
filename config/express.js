@@ -3,12 +3,10 @@
 
   var express = require('express'),
     morgan = require('morgan'),
-    mongoose = require('mongoose'),
     methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    database = require('./database'),
     routes = require('./../app/routes');
 
   // mount an instance of express router on the routes
@@ -19,7 +17,6 @@
   var app = express();
 
   // connect to the database
-  mongoose.connect(database.db);
   app.use(bodyParser.json());
   app.use(session({
     secret: 'I love andela',
