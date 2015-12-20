@@ -32,4 +32,3 @@ Run `npm test` on your terminal. Remember to  run test on the project root direc
 * Follow me on [twitter](https://twitter.com/EkemezieRowland).
 * [CLI version of Document manager with mongodb](https://github.com/andela-rekemezie/DMS-Mongoose).
 * [CLI version of Document manager with PostgreSQL](https://github.com/andela-rekemezie/DMS-Sequelize).
-
