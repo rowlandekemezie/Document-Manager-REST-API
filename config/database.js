@@ -15,6 +15,7 @@
   module.exports = {
     development: envVariables,
     test: envVariables,
-    production: envVariables
+    production: envVariables,
+    staging: envVariables
   };
 })();
