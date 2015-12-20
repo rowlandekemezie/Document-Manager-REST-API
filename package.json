@@ -1,39 +1,45 @@
 {
- "name": "document-manager-rest-api",
- "version": "1.0.0",
- "description": "A RESTful API to implement CRUD for a document management system",
- "preferGlobal": true,
- "scripts": {
-  "test": "jasmine-node --captureExceptions --autotest --verbose --color --growl spec/",
-  "start": "nodemon server.js"
- },
- "repository": {
-  "type": "git",
-  "url": "git+https://github.com/andela-rekemezie/REST-API.git"
- },
- "keywords": ["REST", "API", "express", "mongoose"],
- "author": "Rowland Ekemezie",
- "license": "MIT",
- "bugs": {
-  "url": "https://github.com/andela-rekemezie/REST-API/issues"
- },
- "homepage": "https://github.com/andela-rekemezie/REST-API#readme",
- "dependencies": {
-  "bcrypt-nodejs": "0.0.3",
-  "body-parser": "^1.14.1",
-  "cookie-parser": "^1.4.0",
-  "events": "^1.1.0",
-  "express": "^4.13.3",
-  "express-session": "^1.12.1",
-  "fs": "0.0.2",
-  "jsonwebtoken": "^5.4.1",
-  "method-override": "^2.3.5",
-  "mongoose": "^4.2.8",
-  "morgan": "^1.6.1",
-  "supertest": "^1.1.0",
-  "validator": "^4.3.0"
- },
- "devDependencies": {
-  "jasmine-node": "^1.14.5"
- }
+  "name": "document-manager-rest-api",
+  "version": "1.0.0",
+  "description": "A RESTful API to implement CRUD for a document management system",
+  "preferGlobal": true,
+  "scripts": {
+    "test": "jasmine-node --captureExceptions --autotest --verbose --color --growl spec/",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-rekemezie/REST-API.git"
+  },
+  "keywords": [
+    "REST",
+    "API",
+    "express",
+    "mongoose"
+  ],
+  "author": "Rowland Ekemezie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-rekemezie/REST-API/issues"
+  },
+  "homepage": "https://github.com/andela-rekemezie/REST-API#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "dotenv": "^1.2.0",
+    "events": "^1.1.0",
+    "express": "^4.13.3",
+    "express-session": "^1.12.1",
+    "jsonwebtoken": "^5.4.1",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.2.8",
+    "morgan": "^1.6.1",
+    "standard": "^5.4.1",
+    "supertest": "^1.1.0",
+    "validator": "^4.3.0"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
 }
