@@ -1,6 +1,6 @@
 [![Code Climate](https://codeclimate.com/repos/56713dac42795072ee00011e/badges/f59b3386d66cdde21c2b/gpa.svg)](https://codeclimate.com/repos/56713dac42795072ee00011e/feed)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-[![Build Status](https://semaphoreci.com/api/v1/projects/1f3a3621-b8a0-4bc1-b509-833644d225ca/640925/badge.svg)](https://semaphoreci.com/rowland/document-manager-rest-api)
+[![Build Status](https://semaphoreci.com/api/v1/projects/663992a9-e908-4add-b7c7-0475446e0e30/641028/badge.svg)](https://semaphoreci.com/rowland/document-manager-rest-api-2)
 
 # Document-Manager-REST-API
 
