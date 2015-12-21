@@ -4,8 +4,7 @@
   "description": "A RESTful API to implement CRUD for a document management system",
   "preferGlobal": true,
   "scripts": {
-    "test": "istanbul cover jasmine-node --captureExceptions spec/ && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "start": "nodemon server.js"
+    "test": "jasmine-node --captureExceptions --forceexit spec/"
   },
   "repository": {
     "type": "git",
