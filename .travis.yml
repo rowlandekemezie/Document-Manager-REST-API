@@ -12,4 +12,3 @@ addons:
       - g++-4.8
 services:
   - mongodb
-sudo: false
