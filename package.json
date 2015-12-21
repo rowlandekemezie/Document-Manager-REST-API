@@ -4,7 +4,7 @@
   "description": "A RESTful API to implement CRUD for a document management system",
   "preferGlobal": true,
   "scripts": {
-    "test": "jasmine-node --captureExceptions --autotest --verbose --color --growl spec/",
+    "test": "jasmine-node --forceexit spec/",
     "start": "nodemon server.js"
   },
   "repository": {
