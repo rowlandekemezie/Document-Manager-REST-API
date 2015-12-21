@@ -3,12 +3,9 @@ node_js:
   - "5.0"
 env:
   - CXX=g++-4.8
-  - DB=mongodb
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-services:
-  - mongodb
