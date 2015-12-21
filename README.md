@@ -1,6 +1,7 @@
 [![Code Climate](https://codeclimate.com/repos/56713dac42795072ee00011e/badges/f59b3386d66cdde21c2b/gpa.svg)](https://codeclimate.com/repos/56713dac42795072ee00011e/feed)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://semaphoreci.com/api/v1/projects/57010157-c285-4216-aebc-736002124761/641889/shields_badge.svg)](https://semaphoreci.com/rowland/document-manager-rest-api-3)
+[![Build Status](https://travis-ci.org/andela-rekemezie/Document-Manager-REST-API.svg?branch=master)](https://travis-ci.org/andela-rekemezie/Document-Manager-REST-API)
 
 # Document-Manager-REST-API
 
