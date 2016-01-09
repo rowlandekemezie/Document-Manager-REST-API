@@ -11,6 +11,7 @@
     app = require('./config/express'),
     port = process.env.PORT || 5555;
 
+  // connection to the database
   mongoose.connect(database.url);
 
   app.listen(port, function() {
