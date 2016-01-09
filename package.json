@@ -5,7 +5,7 @@
   "preferGlobal": true,
   "scripts": {
     "test": "jasmine-node --captureExceptions --forceexit spec/",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

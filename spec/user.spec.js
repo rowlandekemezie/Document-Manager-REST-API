@@ -44,7 +44,7 @@
         expect(res.body.token).toBeDefined();
         expect(res.statusCode).toBe(200);
         expect(res.body).not.toBeUndefined();
-        expect(res.body).not.toBe();
+        expect(res.body).not.toBeNull();
         expect(res.badRequest).toBe(false);
         expect(err).toBeNull();
         done();
