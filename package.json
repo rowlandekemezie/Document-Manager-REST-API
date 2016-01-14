@@ -10,7 +10,7 @@
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "commit":"git-cz",
+    "commit": "git-cz",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -59,9 +59,9 @@
   "config": {
     "ghooks": {
       "pre-push": "npm  run test:single && npm run check-coverage"
+    },
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
     }
-  },
-  "czConfig":{
-    "path": "node_modules/cz-conventional-changelog"
   }
 }
