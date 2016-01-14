@@ -30,4 +30,3 @@ script:
 after_success:
   - npm run report-coverage
   - npm run coveralls
-  - npm run semantic-release
