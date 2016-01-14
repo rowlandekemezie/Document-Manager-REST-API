@@ -8,6 +8,7 @@
     jwt = require('jsonwebtoken'),
     config = require('./../config/pass'),
     userName = require('./../config/admin').admin,
+    role = require('./../config/admin').role,
     model = require('./../app/models'),
     userData = require('./../seeds/users.json'),
     roleData = require('./../seeds/roles.json'),
@@ -24,6 +25,7 @@
         });
         var userDetail = userData[0];
         userDetail.userName = userName;
+        userDetail.role = role;
         var newUser = new User(userDetail);
         newRole.save();
         newUser.save();
@@ -48,6 +50,7 @@
           .set('x-access-token', adminToken)
           .send(roleData[1])
           .end(function(err, res) {
+            console.log(res.status);
             expect(res.status).to.equal(200);
             expect(err).to.be.a('null');
             expect(err).not.to.be.a('undefined');
