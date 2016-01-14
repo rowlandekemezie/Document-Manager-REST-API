@@ -3,6 +3,7 @@
 
   var app = require('./../index'),
     mongoose = require('mongoose'),
+    expect = require('chai').expect,
     request = require('supertest')(app),
     jwt = require('jsonwebtoken'),
     config = require('./../config/pass'),
@@ -32,71 +33,71 @@
 
     it('should login user on /users/login endpoint', function(done) {
       request.post('/api/users/login')
-      .send({
-        userName: userData[0].userName,
-        password: userData[0].password
-      })
-      .end(function(err, res) {
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'Login successful',
-          success: true
-        }));
-        expect(res.body.token).toBeDefined();
-        expect(res.statusCode).toBe(200);
-        expect(res.body).not.toBeUndefined();
-        expect(res.body).not.toBeNull();
-        expect(res.badRequest).toBe(false);
-        expect(err).toBeNull();
-        done();
-      });
+        .send({
+          userName: userData[0].userName,
+          password: userData[0].password
+        })
+        .end(function(err, res) {
+          expect(res.body).contain({
+            message: 'Login successful',
+            success: true
+          });
+          expect(res.body.token).not.to.be.a('undefined');
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).not.to.be.a('undefined');
+          expect(res.body).not.to.be.a('null');
+          expect(res.badRequest).to.equal(false);
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not login user with the wrong username', function(done) {
       request.post('/api/users/login')
-      .send({
-        userName: 'Hacker1',
-        psssword: userData[0].password
-      })
+        .send({
+          userName: 'Hacker1',
+          psssword: userData[0].password
+        })
 
       .end(function(err, res) {
-        expect(res.body).toEqual(jasmine.objectContaining({
+        expect(res.body).contain({
           success: false,
           message: 'Invalid user'
-        }));
-        expect(err).not.toBeUndefined();
-        expect(res.status).toBe(406);
+        });
+        expect(err).not.to.be.a('undefined');
+        expect(res.status).to.equal(406);
         done();
       });
     });
 
     it('should not login user with the wrong password', function(done) {
       request.post('/api/users/login')
-      .send({
-        userName: userData[0].userName,
-        password: 'wrongPassword'
-      })
-      .end(function(err, res) {
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'Invalid password'
-        }));
-        expect(err).not.toBeUndefined();
-        expect(res.status).toBe(406);
-        done();
-      });
+        .send({
+          userName: userData[0].userName,
+          password: 'wrongPassword'
+        })
+        .end(function(err, res) {
+          expect(res.body).contain({
+            success: false,
+            message: 'Invalid password'
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(res.status).to.equal(406);
+          done();
+        });
     });
 
     it('should logout user', function(done) {
       request.post('/api/users/logout')
-      .end(function(err, res) {
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: true,
-          message: 'You are logged out'
-        }));
-        expect(err).toBeNull();
-        done();
-      });
+        .end(function(err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.body).contain({
+            success: true,
+            message: 'You are logged out'
+          });
+          expect(err).to.be.a('null');
+          done();
+        });
     });
   });
 
@@ -127,16 +128,16 @@
         password: 'awesomecool'
       };
       request.post('/api/users/')
-      .send(newUser)
-      .end(function(err, res) {
-        expect(res.status).toBe(200);
-        expect(err).toBeNull();
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: true,
-          message: 'User created successfully'
-        }));
-        done();
-      });
+        .send(newUser)
+        .end(function(err, res) {
+          expect(res.status).to.equal(200);
+          expect(err).to.be.a('null');
+          expect(res.body).contain({
+            success: true,
+            message: 'User created successfully'
+          });
+          done();
+        });
     });
 
     it('should create unique users', function(done) {
@@ -149,17 +150,17 @@
         password: 'awesomecool'
       };
       request.post('/api/users/')
-      .send(newuser)
-      .end(function(err, res) {
-        expect(res.status).toBe(409);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'UserName already exist'
-        }));
-        expect(err).not.toBeUndefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .send(newuser)
+        .end(function(err, res) {
+          expect(res.status).to.equal(409);
+          expect(res.body).contain({
+            success: false,
+            message: 'UserName already exist'
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not create user without a valid role', function(done) {
@@ -172,17 +173,17 @@
         password: 'awesomecool'
       };
       request.post('/api/users/')
-      .send(newuser)
-      .end(function(err, res) {
-        expect(res.status).toBe(406);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'Invalid role'
-        }));
-        expect(err).not.toBeUndefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .send(newuser)
+        .end(function(err, res) {
+          expect(res.status).to.equal(406);
+          expect(res.body).contain({
+            success: false,
+            message: 'Invalid role'
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not create user without a role', function(done) {
@@ -195,17 +196,17 @@
         password: 'awesomecool'
       };
       request.post('/api/users/')
-      .send(newuser)
-      .end(function(err, res) {
-        expect(res.status).toBe(406);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'Please, provide your role'
-        }));
-        expect(err).not.toBeUndefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .send(newuser)
+        .end(function(err, res) {
+          expect(res.status).to.equal(406);
+          expect(res.body).contain({
+            success: false,
+            message: 'Please, provide your role'
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not create user without firstName and lastName', function(done) {
@@ -218,17 +219,17 @@
         password: 'awesomecool'
       };
       request.post('/api/users/')
-      .send(newuser)
-      .end(function(err, res) {
-        expect(res.status).toBe(406);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'Please, provide your firstName and lastName'
-        }));
-        expect(err).not.toBeUndefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .send(newuser)
+        .end(function(err, res) {
+          expect(res.status).to.equal(406);
+          expect(res.body).contain({
+            success: false,
+            message: 'Please, provide your firstName and lastName'
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
   });
 
@@ -256,45 +257,41 @@
 
     it('should get a specific user by his id', function(done) {
       request.get('/api/users/' + id)
-      .set('x-access-token', userToken)
-      .end(function(err, res) {
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          userName: 'Godson',
-          name: {
-            firstName: 'Goddy',
-            lastName: 'Ukpere'
-          },
-          role: 'Trainer',
-          email: 'godsonukpere@gmail.com'
-        }));
-        done();
-      });
+        .set('x-access-token', userToken)
+        .end(function(err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.body).contain({
+            userName: 'Godson',
+            role: 'Trainer',
+            email: 'godsonukpere@gmail.com'
+          });
+          done();
+        });
     });
 
     it('should return no user with any invalid id', function(done) {
       var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
       request.get('/api/users/' + invalidId)
-      .set('x-access-token', userToken)
-      .end(function(err, res) {
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'No user found by that Id'
-        }));
-        done();
-      });
+        .set('x-access-token', userToken)
+        .end(function(err, res) {
+          expect(res.body).contain({
+            success: false,
+            message: 'No user found by that Id'
+          });
+          done();
+        });
     });
 
     it('should not return a user unless authenticated', function(done) {
       request.get('/api/users/' + id)
-      .end(function(err, res) {
-        expect(res.status).toBe(403);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          success: false,
-          message: 'Please provide your token'
-        }));
-        done();
-      });
+        .end(function(err, res) {
+          expect(res.status).to.equal(403);
+          expect(res.body).contain({
+            success: false,
+            message: 'Please provide your token'
+          });
+          done();
+        });
     });
 
     it('should return all users created', function(done) {
@@ -303,30 +300,22 @@
       newUser.save();
       newRole.save();
       request.get('/api/users/')
-      .set('x-access-token', userToken)
-      .end(function(err, res) {
-        expect(res.status).toBe(200);
-        expect(res.body.length).toEqual(2);
-        expect(res.body[1]).toEqual(jasmine.objectContaining({
-          userName: 'Ify',
-          name: {
-            firstName: 'Ifeanyi',
-            lastName: 'Oraeolosi'
-          },
-          email: 'ifeanyioraeolosi@gmail.com',
-          role: 'Librarian'
-        }));
-        expect(res.body[0]).toEqual(jasmine.objectContaining({
-          userName: 'Godson',
-          name: {
-            firstName: 'Goddy',
-            lastName: 'Ukpere'
-          },
-          email: 'godsonukpere@gmail.com',
-          role: 'Trainer'
-        }));
-        done();
-      });
+        .set('x-access-token', userToken)
+        .end(function(err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.body.length).to.equal(2);
+          expect(res.body[1]).contain({
+            userName: 'Ify',
+            email: 'ifeanyioraeolosi@gmail.com',
+            role: 'Librarian'
+          });
+          expect(res.body[0]).contain({
+            userName: 'Godson',
+            email: 'godsonukpere@gmail.com',
+            role: 'Trainer'
+          });
+          done();
+        });
     });
   });
 
@@ -354,102 +343,102 @@
 
     it('should update a specific user with a valid id', function(done) {
       request.put('/api/users/' + id)
-      .set('x-access-token', userToken)
-      .send({
-        userName: 'Haski',
-        name: {
-          firstName: 'Lamboni',
-          lastName: 'Ruskima',
-        },
-        email: 'lamboniruskina@gmail.com',
-        password: 'PythonPhpJavascript',
-        role: 'Documentarian'
-      })
-      .end(function(err, res) {
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'User details updated',
-          success: true
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .set('x-access-token', userToken)
+        .send({
+          userName: 'Haski',
+          name: {
+            firstName: 'Lamboni',
+            lastName: 'Ruskima',
+          },
+          email: 'lamboniruskina@gmail.com',
+          password: 'PythonPhpJavascript',
+          role: 'Documentarian'
+        })
+        .end(function(err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.body).contain({
+            message: 'User details updated',
+            success: true
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not update user with an invalid role', function(done) {
       request.put('/api/users/' + id)
-      .set('x-access-token', userToken)
-      .send({
-        userName: 'Haski',
-        name: {
-          firstName: 'Lamboni',
-          lastName: 'Ruskima',
-        },
-        email: 'lamboniruskina@gmail.com',
-        password: 'PythonPhpJavascript',
-        role: undefined
-      })
-      .end(function(err, res) {
-        expect(res.status).toBe(406);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'Please provide your role',
-          success: false
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .set('x-access-token', userToken)
+        .send({
+          userName: 'Haski',
+          name: {
+            firstName: 'Lamboni',
+            lastName: 'Ruskima',
+          },
+          email: 'lamboniruskina@gmail.com',
+          password: 'PythonPhpJavascript',
+          role: undefined
+        })
+        .end(function(err, res) {
+          expect(res.status).to.equal(406);
+          expect(res.body).contain({
+            message: 'Please provide your role',
+            success: false
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not update invalid id', function(done) {
       var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
       request.put('/api/users/' + invalidId)
-      .set('x-access-token', userToken)
-      .send({
-        userName: 'Haski',
-        name: {
-          firstName: 'Lamboni',
-          lastName: 'Ruskima',
-        },
-        email: 'lamboniruskina@gmail.com',
-        password: 'PythonPhpJavascript',
-        role: 'Documentarian'
-      })
-      .end(function(err, res) {
-        expect(res.status).toBe(404);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'User not available',
-          success: false
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .set('x-access-token', userToken)
+        .send({
+          userName: 'Haski',
+          name: {
+            firstName: 'Lamboni',
+            lastName: 'Ruskima',
+          },
+          email: 'lamboniruskina@gmail.com',
+          password: 'PythonPhpJavascript',
+          role: 'Documentarian'
+        })
+        .end(function(err, res) {
+          expect(res.status).to.equal(404);
+          expect(res.body).contain({
+            message: 'User not available',
+            success: false
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should be authenticated before user can update', function(done) {
       request.put('/api/users/' + id)
-      .send({
-        userName: 'Haski',
-        name: {
-          firstName: 'Lamboni',
-          lastName: 'Ruskima',
-        },
-        email: 'lamboniruskina@gmail.com',
-        password: 'PythonPhpJavascript',
-        role: 'Documentarian'
-      })
-      .end(function(err, res) {
-        expect(res.status).toBe(403);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'Please provide your token',
-          success: false
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .send({
+          userName: 'Haski',
+          name: {
+            firstName: 'Lamboni',
+            lastName: 'Ruskima',
+          },
+          email: 'lamboniruskina@gmail.com',
+          password: 'PythonPhpJavascript',
+          role: 'Documentarian'
+        })
+        .end(function(err, res) {
+          expect(res.status).to.equal(403);
+          expect(res.body).contain({
+            message: 'Please provide your token',
+            success: false
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
   });
 
@@ -475,47 +464,47 @@
     });
     it('should delete user with a specific id', function(done) {
       request.delete('/api/users/' + id)
-      .set('x-access-token', userToken)
-      .end(function(err, res) {
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'User deleted successfully',
-          success: true
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .set('x-access-token', userToken)
+        .end(function(err, res) {
+          expect(res.status).to.equal(200);
+          expect(res.body).contain({
+            message: 'User deleted successfully',
+            success: true
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not delete user if not authenticated', function(done) {
       request.delete('/api/users/' + id)
-      .end(function(err, res) {
-        expect(res.status).toBe(403);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'Please provide your token',
-          success: false
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .end(function(err, res) {
+          expect(res.status).to.equal(403);
+          expect(res.body).contain({
+            message: 'Please provide your token',
+            success: false
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
 
     it('should not delete user with invalid id', function(done) {
       var invalidId = mongoose.Types.ObjectId('4edd40c86762e0fb12000003');
       request.delete('/api/users/' + invalidId)
-      .set('x-access-token', userToken)
-      .end(function(err, res) {
-        expect(res.status).toBe(404);
-        expect(res.body).toEqual(jasmine.objectContaining({
-          message: 'User not available',
-          success: false
-        }));
-        expect(err).toBeDefined();
-        expect(err).toBeNull();
-        done();
-      });
+        .set('x-access-token', userToken)
+        .end(function(err, res) {
+          expect(res.status).to.equal(404);
+          expect(res.body).contain({
+            message: 'User not available',
+            success: false
+          });
+          expect(err).not.to.be.a('undefined');
+          expect(err).to.be.a('null');
+          done();
+        });
     });
   });
 })();
