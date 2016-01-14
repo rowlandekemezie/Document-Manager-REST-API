@@ -22,9 +22,9 @@
             message: 'Document not available'
           });
         } else {
-          if (req.decoded._id !== doc.ownerId &&
-            req.decoded.role !== config.role &&
-            req.decoded.role !== 'Documentarian') {
+          if (req.decoded._doc_id !== doc.ownerId &&
+            req.decoded._doc.role !== config.role &&
+            req.decoded._doc.role !== 'Documentarian') {
             res.status(403).json({
               success: false,
               message: 'Forbidden. You don\'t have the permission'

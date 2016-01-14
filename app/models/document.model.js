@@ -9,7 +9,6 @@
       ownerId: {
         type: mongoose.Schema.Types.ObjectId,
         Ref: 'User',
-        required: true
       },
       title: {
         type: String,

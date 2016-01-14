@@ -11,7 +11,7 @@
    * @return {[JSON]}        [Json response]
    */
   module.exports = function(req, res, next) {
-    if (req.body.title === config.role) {
+    if (req.decoded._doc.role !== config.role) {
       res.status(401).json({
         success: false,
         message: 'Not authorized'
