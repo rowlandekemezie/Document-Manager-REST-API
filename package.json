@@ -58,7 +58,7 @@
   },
     "config": {
     "ghooks": {
-      "pre-push": "npm run check-coverage"
+      "pre-push": "npm  run test:single && npm run check-coverage"
     },
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
