@@ -1,10 +1,16 @@
 {
   "name": "document-manager-rest-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A RESTful API to implement CRUD for a document management system",
   "preferGlobal": true,
   "scripts": {
-    "test": "jasmine-node --captureExceptions --forceexit spec/",
+    "test": "istanbul cover -x *.spec.js _mocha -- -R spec spec/",
+    "test:single": "mocha spec",
+    "check-coverage": "istanbul check-coverage --statements 80 --branches 70 --statements 80 --lines 80",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "commit":"git-cz",
     "start": "nodemon server.js"
   },
   "repository": {
@@ -40,8 +46,22 @@
     "validator": "^4.3.0"
   },
   "devDependencies": {
+    "chai": "^3.4.1",
+    "codecov.io": "^0.1.6",
+    "commitizen": "^2.5.0",
     "coveralls": "^2.11.6",
+    "cz-conventional-changelog": "^1.1.5",
+    "ghooks": "^1.0.3",
     "istanbul": "^0.4.1",
-    "jasmine-node": "^1.14.5"
+    "jasmine-node": "^1.14.5",
+    "mocha": "^2.3.4"
+  },
+  "config": {
+    "ghooks": {
+      "pre-push": "npm  run test:single && npm run check-coverage"
+    }
+  },
+  "czConfig":{
+    "path": "node_modules/cz-conventional-changelog"
   }
 }
