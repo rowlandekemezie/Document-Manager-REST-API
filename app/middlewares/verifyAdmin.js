@@ -11,6 +11,7 @@
    * @return {[access privilege]}        [Json response]
    */
   module.exports = function(req, res, next) {
+    // console.log(JSON.stringify(req.decoded));
     if (req.decoded.userName !== config.admin) {
       res.status(401).json({
         success: false,
