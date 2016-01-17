@@ -87,6 +87,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "config": {
+
     "ghooks": {
       "pre-push": "npm  run test:single && npm run check-coverage"
     },
@@ -94,4 +95,5 @@
       "path": "node_modules/cz-conventional-changelog"
     }
   }
+}
 }

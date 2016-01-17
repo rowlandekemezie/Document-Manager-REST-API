@@ -6,9 +6,9 @@
     require('dotenv').load();
   }
 
-  var database = require('./server/config/database')[env],
+  var database = require('./config/database')[env],
     mongoose = require('mongoose'),
-    app = require('./server/config/express'),
+    app = require('./config/express'),
     port = process.env.PORT || 5555;
 
   // connection to the database
