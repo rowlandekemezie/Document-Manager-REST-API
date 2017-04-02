@@ -50,7 +50,6 @@
           .set('x-access-token', adminToken)
           .send(roleData[1])
           .end(function(err, res) {
-            console.log(res.status);
             expect(res.status).to.equal(200);
             expect(err).to.be.a('null');
             expect(err).not.to.be.a('undefined');
@@ -104,10 +103,6 @@
       });
 
       it('should return all roles created', function(done) {
-        for (var i = 0, n = roleData.length; i < n; i++) {
-          var newRole = new Role(roleData[i]);
-          newRole.save();
-        }
         request.get('/api/roles/')
           .set('x-access-token', adminToken)
           .end(function(err, res) {
