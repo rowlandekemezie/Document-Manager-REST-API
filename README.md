@@ -14,6 +14,12 @@ Document-Manager-REST-API is a  RESTful API built with Express, Node, and Mongod
 4. Navigate to your terminal and change your directory to the **Document-Manager-REST-API**.
 5. Run `npm install` to install node dependencies.
 
+### Database setup
+Add `.env` file in the project directory and add 
+```bash
+	DATABASE_URL=<your mongodb connection string> or use # mongodb://localhost:27017/doc-man
+```
+
 ### Usage
 Run `npm start` on your terminal.
 Navigate to `http://localhost:5555` on your browser.
