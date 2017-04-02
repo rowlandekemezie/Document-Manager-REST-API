@@ -103,13 +103,14 @@
       });
 
       it('should return all roles created', function(done) {
+        Role.create(roleData, function(){});
         request.get('/api/roles/')
           .set('x-access-token', adminToken)
           .end(function(err, res) {
             expect(res.status).to.equal(200);
             expect(err).to.be.a('null');
-            expect(res.body[0].title).to.equal('testRole');
-            expect(res.body[1].title).to.equal('Documentarian');
+            expect(res.body[0].title).to.equal('Documentarian');
+            expect(res.body[1].title).to.equal('testRole'); 
             expect(res.body[2].title).to.equal('Trainer');
             expect(res.body[3].title).to.equal('Librarian');
             done();
