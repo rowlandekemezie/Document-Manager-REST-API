@@ -2,6 +2,7 @@
 [![Code Climate](https://codeclimate.com/repos/56713dac42795072ee00011e/badges/f59b3386d66cdde21c2b/gpa.svg)](https://codeclimate.com/repos/56713dac42795072ee00011e/feed)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Coveralls](https://img.shields.io/coveralls/mentrie/Document-Manager-REST-API/develop.svg)](https://coveralls.io/github/mentrie/Document-Manager-REST-API)
+[![Contact me on Codementor](https://cdn.codementor.io/badges/contact_me_github.svg)](https://www.codementor.io/rowland?utm_source=github&utm_medium=button&utm_term=rowland&utm_campaign=github)
 # Document-Manager-REST-API
 
 Document-Manager-REST-API is a  RESTful API built with Express, Node, and Mongodb. The application allows you to manage users, roles and documents with assigned authorization. Basically, it implements CRUD(Create-Read-Update-Delete) for User, Role, and Document models.
