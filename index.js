@@ -10,9 +10,7 @@
     mongoose = require('mongoose'),
     app = require('./config/express'),
     port = process.env.PORT || 5555;
-  
-  // Promisefy mongoose
-  mongoose.Promise = global.Promise;
+
 
   // connection to the database
   mongoose.connect(database.url);

@@ -22,8 +22,11 @@ notifications:
 branches:
   only:
     - develop
+npm_skip_install:
+
 before_install:
-  - npm i -g npm@^2.0.0
+  - npm install yarn -g
+  - yarn
 before_script:
   - npm prune
 script:
